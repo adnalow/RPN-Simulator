@@ -27,7 +27,6 @@ body::before {
 
 .container {
     position: relative; /* Make container the reference for absolute positioning */
-    font-family: "Pixelify Sans", sans-serif;
     text-align: center; 
 }
 
@@ -38,6 +37,7 @@ body::before {
 }
 
 #title {
+    font-family: "Pixelify Sans", sans-serif;
     background-color: blue;
     position: absolute;
     top: 115px; 
@@ -48,6 +48,94 @@ body::before {
     background: linear-gradient(0deg, #FF4500, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.main-content {
+    font-family: "Pixelify Sans", sans-serif;
+    position: absolute;
+    box-sizing: border-box;
+    color: white;
+    top: 450px;
+    left: 50%; /* Centers horizontally */
+    transform: translateX(-50%); /* Offsets the element by 50% of its width to ensure it's truly centered */
+    height: 500px;
+    width: 650px;
+    padding: 30px;
+    /* background-color: pink;  */
+    display: flex;
+    flex-direction: column; /* Stack h1 and .infix vertically */
+}
+
+.main-content h1 {
+    font-size: 60px;
+}
+
+#start {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.to-postfix {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.infix {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* background-color: skyblue; */
+}
+
+.infix label {
+    font-size: 40px;
+}
+
+#infixInput {
+    font-family: "Pixelify Sans", sans-serif; /* Use your arcade-style font */
+    font-size: 36px;
+    color: #FFFFFF; 
+    background-color: transparent; 
+    border: 1px solid #FFFFFF; 
+    margin-top: 5px;
+    margin-bottom: 30px;
+    padding: 5px;
+    width: 75%;
+    outline: none;
+}
+
+/* Prevent the background from turning white */
+#infixInput:focus {
+    background-color: transparent; /* Ensures the background stays transparent */
+}
+
+.outputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* background-color: red; */
+}
+
+.finalOutput {
+    font-size: 36px;
+    margin-top: 20px;
+}
+
+.output {
+    font-size: 30px;
 }
 
 .controls {
@@ -70,3 +158,4 @@ body::before {
     width: 100px;
     height: auto;
 }
+
