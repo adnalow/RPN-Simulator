@@ -1,25 +1,44 @@
 const startButton = document.getElementById('startButton');
 const nextButton = document.getElementById('stepButton');
 
-// Set up event listeners for start and next buttons
+let isFirstClick = true; // Flag to track if it's the first click
+
 startButton.addEventListener('click', () => {
-    startConversion();
+    if (isFirstClick) {
+        // Run transition to main content on first click
+        showMainContent();
+        isFirstClick = false; // Set the flag to false after the first click
+        
+        // Change the button's behavior to start conversion from now on
+        startButton.removeEventListener('click', arguments.callee); // Remove the current event listener
+        startButton.addEventListener('click', () => {
+            startConversion(); // Start conversion on subsequent clicks
+            handleButtonPressEffect(startButton);
+        });
+    }
 });
 
-nextButton.addEventListener('click', stepConversion);
+nextButton.addEventListener('click', () => {
+    stepConversion();
+    handleButtonPressEffect(nextButton);
+});
 
-
-
-function showMainContent(buttonElement) {
-    document.querySelector('.to-postfix').classList.remove('hidden');
-    document.getElementById('start').style.display = 'none';
-
+function handleButtonPressEffect(buttonElement) {
+    // Change button image to active state
     buttonElement.src = 'assets/images/active_button.png';
 
+    // Revert button image back to original after 200ms
     setTimeout(() => {
         buttonElement.src = 'assets/images/button.png';
-    }, 200); // Adjust timing for a realistic arcade press effect
+    }, 200);
 }
+
+// Display Main
+function showMainContent() {
+    document.querySelector('.to-postfix').classList.remove('hidden');
+    document.getElementById('start').style.display = 'none';
+}
+
 
 // Infix to Postfix
 let stack = [];
@@ -112,3 +131,4 @@ function stepConversion() {
         // Display the next character
         displayNextCharacter();
     }
+
