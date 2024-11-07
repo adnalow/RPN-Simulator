@@ -91,7 +91,7 @@ body::before {
     display: none;
 }
 
-.infix {
+.infix, .postfix {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -101,7 +101,7 @@ body::before {
     /* background-color: skyblue; */
 }
 
-.infix label {
+.main-content label {
     font-size: 36px;
 }
 
@@ -129,15 +129,12 @@ body::before {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 10px;
+    font-size: 30px;
     /* background-color: red; */
 }
 
 .finalOutput {
     font-size: 36px;
-}
-
-.output {
-    font-size: 30px;
 }
 
 .controls {

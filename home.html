@@ -29,16 +29,32 @@
                 <div class="infix">
                     <label>Enter Expression:</label>
                     <input type="text" id="infixInput" autocomplete="off">
-                    <!-- <button onclick="startConversion()">Start Conversion</button>
-                    <button onclick="stepConversion()" id="stepButton" disabled>Next Step</button> -->
                     <div class="outputs">
-                        <div class="stack-output output" id="stackOutput">Stack: []</div>
-                        <div class="postfix-output output" id="currentPostfix">Postfix: </div>
-                        <div class="outputUI output" id="outputDisplay">To be evaluated: </div>
+                        <div class="stack-output" id="stackOutput">Stack: []</div>
+                        <div class="postfix-output" id="currentPostfix">Postfix: </div>
+                        <div class="outputUI" id="outputDisplay">To be evaluated: </div>
                     </div>
 
                     <!-- output ito, nilagay ko muna na finalOutput -->
                     <div class="finalOutput" id="postfixOutput"></div> 
+                </div>
+            </div>
+
+            <!-- Postfix Evaluation -->
+            <div class="postfix-evaluation hidden">
+                <h1>Postfix Evaluator</h1>
+                <div class="postfix">
+                    <label>Postfix to be Evaluated: </label>
+                    <p>Sample Expression</p>
+
+                    <div class="outputs">
+                        <div class="stack-output" id="stackOutput">Stack: []</div>
+                        <div class="operations-output" id="operationsOutput">Operations to be done: []</div>
+                        <div class="result-stack-output" id="resultStackOutput">Result Stack: []</div>
+                        <div class="current-output" id="currentOutput">Current operator: </div>
+                    </div>
+
+                    <div class="finalOutput" id="evaluationOutput">Final Answer:</div>
                 </div>
             </div>
         </div>
@@ -46,7 +62,7 @@
         <!-- Arcade Machine Controls -->
         <div class="controls">
             <div class="left-items">
-                <img src="assets/images/button.png" alt="button1" class="button" data-action="startConversion" onclick="showMainContent(this)" id="startButton"> 
+                <img src="assets/images/button.png" alt="button1" class="button" id="startButton"> 
                 <img src="assets/images/button.png" alt="button2" class="button" id="stepButton">
             </div>
             <div class="right-items"><img src="assets/images/coin_slot.png" alt="coin slot" id="coin_slot"></div>
