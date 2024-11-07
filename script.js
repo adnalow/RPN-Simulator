@@ -223,7 +223,7 @@ function startEvaluation() {
         }
         evaluationStack.push(parseFloat(numberBuffer));
         placeholderStack.push(parseFloat(numberBuffer));
-        document.getElementById('currentOutput').textContent = `Current operand being used: ${numberBuffer}`;
+        document.getElementById('currentOutput').textContent = `Current operand: ${numberBuffer}`;
     } else if (['+', '-', '*', '/'].includes(char)) {  // if it's an operator
         if (placeholderStack.length < 2) {
             document.getElementById('evaluationOutput').textContent = "Error: Invalid Expression"; 
@@ -231,7 +231,7 @@ function startEvaluation() {
             return;
         }
         
-        document.getElementById('currentOutput').textContent = `Current operator being used: ${char}`;
+        document.getElementById('currentOutput').textContent = `Current operator: ${char}`;
         let operand2 = placeholderStack.pop();
         let operand1 = placeholderStack.pop();
         let result = performOperation(char, operand1, operand2);
