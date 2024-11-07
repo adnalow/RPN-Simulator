@@ -15,6 +15,7 @@
         <img src="assets/images/arcade_machine.png" alt="Arcade Machine" id="arcade-machine">
 
         <!-- Title of the Arcade Machine -->
+        <h1 id="shadow">RPN SIMULATOR</h1>
         <h1 id="title">RPN SIMULATOR</h1>
 
         <!-- Main Content -->
@@ -35,22 +36,20 @@
                         <div class="outputUI" id="outputDisplay">To be evaluated: </div>
                     </div>
 
-                    <!-- output ito, nilagay ko muna na finalOutput -->
                     <div class="finalOutput" id="postfixOutput"></div> 
                 </div>
             </div>
 
             <!-- Postfix Evaluation -->
             <div class="postfix-evaluation hidden">
-                <h1>Postfix Evaluator</h1>
+                <h1>POSTFIX EVALUATOR</h1>
                 <div class="postfix">
-                    <label>Postfix to be Evaluated: </label>
-                    <p id="postfix-final">Sample Expression</p>
-
+                    <label>To be Evaluated: </label>
+                    <div id="postfix-final"></div>
                     <div class="outputs">
                         <div class="stack-output" id="evaluationStackOutput">Stack: []</div>
-                        <div class="operations-output" id="operationsOutput">Operations to be done: []</div>
-                        <div class="result-stack-output" id="resultStackOutput">Result Stack: []</div>
+                        <div class="result-stack-output" id="resultStackOutput">Result: []</div>
+                        <div class="operations-output" id="operationsOutput">Operations: []</div>
                         <div class="current-output" id="currentOutput"></div>
                     </div>
 
@@ -62,8 +61,8 @@
         <!-- Arcade Machine Controls -->
         <div class="controls">
             <div class="left-items">
-                <img src="assets/images/button.png" alt="button1" class="button" id="startButton"> 
-                <img src="assets/images/button.png" alt="button2" class="button" id="stepButton">
+                <img src="assets/images/start-button.png" alt="Start Button" class="button" id="startButton"> 
+                <img src="assets/images/next-button.png" alt="Next Button" class="button" id="stepButton">
             </div>
             <div class="right-items"><img src="assets/images/coin_slot.png" alt="coin slot" id="coin_slot"></div>
         </div>
