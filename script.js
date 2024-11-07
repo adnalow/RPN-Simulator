@@ -199,20 +199,31 @@ function startEvaluation() {
   }
 
   function stepEvaluation() {
+    // Skip spaces to move directly to the next character or token
+    while (evaluationIndex < postfixFinal.length && postfixFinal[evaluationIndex] === ' ') {
+        evaluationIndex++;
+    }
+
+    // End evaluation if we've processed all characters
     if (evaluationIndex >= postfixFinal.length) {
-        document.getElementById('evaluationStackOutput').textContent = `Stack: []`; 
         document.getElementById('evaluationOutput').textContent = `Final Result: ${placeholderStack[0]}`;
         document.getElementById('stepButton').disabled = true;
         return;
     }
     
+    // Process the current token
     let char = postfixFinal[evaluationIndex];
-    let operation = '';
+    let numberBuffer = '';
 
-    if (!isNaN(char) && char !== ' ') {  // if it's a number
-        evaluationStack.push(parseFloat(char));
-        placeholderStack.push(parseFloat(char));
-        document.getElementById('currentOutput').textContent = `Current operand being used: ${char}`;
+    // Handle multi-digit numbers
+    if (!isNaN(char) && char !== ' ') {
+        while (evaluationIndex < postfixFinal.length && !isNaN(postfixFinal[evaluationIndex]) && postfixFinal[evaluationIndex] !== ' ') {
+            numberBuffer += postfixFinal[evaluationIndex];
+            evaluationIndex++;
+        }
+        evaluationStack.push(parseFloat(numberBuffer));
+        placeholderStack.push(parseFloat(numberBuffer));
+        document.getElementById('currentOutput').textContent = `Current operand being used: ${numberBuffer}`;
     } else if (['+', '-', '*', '/'].includes(char)) {  // if it's an operator
         if (placeholderStack.length < 2) {
             document.getElementById('evaluationOutput').textContent = "Error: Invalid Expression"; 
@@ -231,21 +242,22 @@ function startEvaluation() {
         placeholderStack.push(result);
         resultStack.push(result);
 
-        operation = `${operand1} ${char} ${operand2}`;
+        let operation = `${operand1} ${char} ${operand2}`;
         operations.push(operation);
         document.getElementById('operationsOutput').textContent = `Operations to be done: [${operations.join(', ')}]`;
+
+        evaluationIndex++;  // Increment the index after processing operator
     }
 
-    if (operations.length > 0) {
-        operations.pop();
-    }
-
+    // Update display elements
     document.getElementById('evaluationStackOutput').textContent = `Stack: [${evaluationStack.join(', ')}]`;
     document.getElementById('resultStackOutput').textContent = `Result Stack: [${resultStack.join(', ')}]`;
 
+    // Clean up operations and results after display
+    if (operations.length > 0) {
+        operations.pop();
+    }
     if (resultStack.length > 0) {
         resultStack.pop();
     }
-
-    evaluationIndex++;
 }
