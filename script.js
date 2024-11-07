@@ -1,22 +1,18 @@
 const startButton = document.getElementById('startButton');
 const nextButton = document.getElementById('stepButton');
 
-let isFirstClick = true; // Flag to track if it's the first click
+let isFirstClick = true; // Flag to check if it's the first click
 
 startButton.addEventListener('click', () => {
     if (isFirstClick) {
-        // Run transition to main content on first click
-        showMainContent();
-        isFirstClick = false; // Set the flag to false after the first click
-        
-        // Change the button's behavior to start conversion from now on
-        startButton.removeEventListener('click', arguments.callee); // Remove the current event listener
-        startButton.addEventListener('click', () => {
-            startConversion(); // Start conversion on subsequent clicks
-            handleButtonPressEffect(startButton);
-        });
+        showMainContent(); // Transition to main content
+        isFirstClick = false; // Set the flag to false after first click
+    } else {
+        startConversion(); // Start conversion for subsequent clicks
     }
+    handleButtonPressEffect(startButton); // Always handle the button press effect
 });
+
 
 nextButton.addEventListener('click', () => {
     stepConversion();
