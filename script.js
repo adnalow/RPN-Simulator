@@ -10,27 +10,39 @@ function onStartButtonClick() {
     } else {
         startConversion(); // Start conversion for subsequent clicks
     }
-    handleButtonPressEffect(startButton); // Always handle the button press effect
+    ButtonPressEffect(startButton); // Always handle the button press effect
 }
 startButton.addEventListener('click', onStartButtonClick);
 
 // Define the stepConversion event listener separately
 function onNextButtonClick() {
     stepConversion();
-    handleButtonPressEffect(nextButton);
+    ButtonPressEffect(nextButton);
 }
 
 // Attach the stepConversion listener initially
 nextButton.addEventListener('click', onNextButtonClick);
 
-function handleButtonPressEffect(buttonElement) {
-    // Change button image to active state
-    buttonElement.src = 'assets/images/active_button.png';
+// press effect for start button
+function ButtonPressEffect(buttonElement) {
+    if (buttonElement == startButton) {
+        // Change button image to active state
+        buttonElement.src = 'assets/images/pressed-start-button.png';
 
-    // Revert button image back to original after 200ms
-    setTimeout(() => {
-        buttonElement.src = 'assets/images/button.png';
-    }, 200);
+        // Revert button image back to original after 200ms
+        setTimeout(() => {
+            buttonElement.src = 'assets/images/start-button.png';
+        }, 200);
+    }
+
+    if (buttonElement == nextButton) {
+        buttonElement.src = 'assets/images/pressed-next-button.png';
+
+        setTimeout(() => {
+            buttonElement.src = 'assets/images/next-button.png';
+        }, 200);
+    }
+    
 }
 
 // Display Main
@@ -141,16 +153,14 @@ function stepConversion() {
 }
 
 // Postfix Evaluation
-
 function onStartEvaluation() {
     startEvaluation();
-    handleButtonPressEffect(startButton); 
+    ButtonPressEffect(startButton); 
 }
 
 function onStepEvaluation() {
     stepEvaluation();
-    handleButtonPressEffect(nextButton);
-
+    ButtonPressEffect(nextButton);
 }
 
 function transitionToPostfixEvaluation() {
@@ -182,8 +192,8 @@ function startEvaluation() {
     resultStack = [];
     document.getElementById('evaluationOutput').textContent = '';
     document.getElementById('evaluationStackOutput').textContent = 'Stack: []';
-    document.getElementById('operationsOutput').textContent = 'Operations to be done: []';
-    document.getElementById('resultStackOutput').textContent = 'Result Stack: []';
+    document.getElementById('operationsOutput').textContent = 'Operations: []';
+    document.getElementById('resultStackOutput').textContent = 'Result: []';
     document.getElementById('currentOutput').textContent = '';
     document.getElementById('stepButton').disabled = false;
   }
@@ -244,14 +254,14 @@ function startEvaluation() {
 
         let operation = `${operand1} ${char} ${operand2}`;
         operations.push(operation);
-        document.getElementById('operationsOutput').textContent = `Operations to be done: [${operations.join(', ')}]`;
+        document.getElementById('operationsOutput').textContent = `Operations: [${operations.join(', ')}]`;
 
         evaluationIndex++;  // Increment the index after processing operator
     }
 
     // Update display elements
     document.getElementById('evaluationStackOutput').textContent = `Stack: [${evaluationStack.join(', ')}]`;
-    document.getElementById('resultStackOutput').textContent = `Result Stack: [${resultStack.join(', ')}]`;
+    document.getElementById('resultStackOutput').textContent = `Result: [${resultStack.join(', ')}]`;
 
     // Clean up operations and results after display
     if (operations.length > 0) {
