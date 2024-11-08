@@ -207,7 +207,7 @@ body::before {
     gap: 10px;
 }
 
-.box {
+.video-box {
     background-color: #2c303c;
     border-radius: 5px;
     display: flex;
