@@ -175,6 +175,28 @@ body::before {
     height: auto;
 }
 
+.token-out-container {
+    width: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    top: 53%;
+    left: 43%;
+}
+
+.token {
+    width: 100px;
+    height: 100px;
+    cursor: move; /* Change cursor to indicate draggable */
+    position: absolute; /* Allow free positioning */
+}
+
+#token_out {
+    width: 250px;
+    height: auto;
+}
+
 @keyframes glow {
     from {
         text-shadow: 

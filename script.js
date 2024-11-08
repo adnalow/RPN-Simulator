@@ -1,7 +1,59 @@
 const startButton = document.getElementById('startButton');
 const nextButton = document.getElementById('stepButton');
+const coinSlot = document.getElementById('coin_slot');
+const tokenOut = document.getElementById('token_out');
+const token = document.getElementById('draggable-token');
+const tokenContainer = document.getElementById('coin-slot-container');
 
 let isFirstClick = true; // Flag to check if it's the first click
+let insertCoin = false;
+let isDragging = false;
+let offsetX, offsetY;
+
+token.addEventListener('mousedown', (event) => {
+    isDragging = true;
+    const tokenRect = token.getBoundingClientRect();
+    offsetX = event.clientX - tokenRect.left;
+    offsetY = event.clientY - tokenRect.top;
+    token.style.pointerEvents = 'none';
+});
+
+document.addEventListener('mousemove', (event) => {
+    if (isDragging) {
+        event.preventDefault();
+        token.style.left = `${event.clientX - offsetX}px`;
+        token.style.top = `${event.clientY - offsetY}px`;
+
+        // Check if token is within the coin slot bounds
+        const coinSlotRect = coinSlot.getBoundingClientRect();
+        const tokenRect = token.getBoundingClientRect();
+
+        const margin = 10; // Allow for a margin around the slot
+        if (
+            tokenRect.left >= coinSlotRect.left - margin &&
+            tokenRect.right <= coinSlotRect.right + margin &&
+            tokenRect.top >= coinSlotRect.top - margin &&
+            tokenRect.bottom <= coinSlotRect.bottom + margin
+        ) {
+            insertCoin = true;
+            token.parentNode.removeChild(token);
+            console.log("Token entered the coin slot!");
+        }
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        token.style.pointerEvents = 'auto'; // Re-enable pointer events
+        if (!insertCoin) {
+            console.log("Token dropped outside the coin slot");
+        }
+    }
+});
+
+
+
 
 function onStartButtonClick() {
     if (isFirstClick) {
