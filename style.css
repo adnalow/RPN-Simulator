@@ -205,6 +205,53 @@ body::before {
     height: auto;
 }
 
+.vid-container {
+    position: absolute;
+    top: 61%;
+    width: 60%;
+    height: 34%;
+    left: 50%; 
+    transform: translateX(-50%); 
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vid-container h1 {
+    font-size: 40px;
+    color: white;
+}
+
+.videos {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.video-box {
+    background-color: #2c303c;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+iframe {
+    width: 95%;
+    height: 90%;
+}
+
 @keyframes glow {
     from {
         text-shadow: 
