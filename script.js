@@ -1,7 +1,96 @@
 const startButton = document.getElementById('startButton');
 const nextButton = document.getElementById('stepButton');
+const coinSlot = document.getElementById('coin_slot');
+const tokenOut = document.getElementById('token_out');
+const token = document.getElementById('draggable-token');
 
+// initial animation for button
+function startInitial() {
+    ButtonPressEffect(startButton);
+}
+
+function nextInitial() {
+    ButtonPressEffect(nextButton);
+}
+
+startButton.addEventListener('click', startInitial);
+nextButton.addEventListener('click', nextInitial);
+
+// insert coin functionality
 let isFirstClick = true; // Flag to check if it's the first click
+let insertCoin = false;
+let isDragging = false;
+let offsetX, offsetY;
+
+
+// token out
+
+function onTokenOutClick() {
+    document.querySelector('.token').classList.remove('hidden');
+}
+
+
+tokenOut.addEventListener('click', onTokenOutClick);
+
+
+
+// token movement to coin slot
+
+token.addEventListener('mousedown', (event) => {
+    isDragging = true;
+    const tokenRect = token.getBoundingClientRect();
+    offsetX = event.clientX - tokenRect.left;
+    offsetY = event.clientY - tokenRect.top;
+    token.style.pointerEvents = 'none';
+});
+
+document.addEventListener('mousemove', (event) => {
+    if (isDragging) {
+        event.preventDefault();
+
+        // Adjusting the position considering the zoom level
+        const zoomScale = window.devicePixelRatio; // Get zoom scale factor
+
+        const adjustedX = (event.clientX - offsetX) * zoomScale; // Adjust with zoom
+        const adjustedY = (event.clientY - offsetY) * zoomScale;
+
+        token.style.left = `${adjustedX}px`;
+        token.style.top = `${adjustedY}px`;
+
+        // Check if token is within the coin slot bounds
+        const coinSlotRect = coinSlot.getBoundingClientRect();
+        const tokenRect = token.getBoundingClientRect();
+
+        const margin = 10; // Allow for a margin around the slot
+        if (
+            tokenRect.left >= coinSlotRect.left - margin &&
+            tokenRect.right <= coinSlotRect.right + margin &&
+            tokenRect.top >= coinSlotRect.top - margin &&
+            tokenRect.bottom <= coinSlotRect.bottom + margin
+        ) {
+            insertCoin = true;
+            token.parentNode.removeChild(token);
+            console.log("Token entered the coin slot!");
+
+            // when insertCoin = true, go to start screen
+            document.getElementById('insertCoin').style.display = 'none';
+            document.getElementById('start').style.display = 'flex';
+
+            startButton.removeEventListener('click', startInitial);
+            startButton.addEventListener('click', onStartButtonClick);
+        }
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        token.style.pointerEvents = 'auto'; // Re-enable pointer events
+        if (!insertCoin) {
+            console.log("Token dropped outside the coin slot");
+        }
+    }
+});
 
 function onStartButtonClick() {
     if (isFirstClick) {
@@ -12,16 +101,11 @@ function onStartButtonClick() {
     }
     ButtonPressEffect(startButton); // Always handle the button press effect
 }
-startButton.addEventListener('click', onStartButtonClick);
 
-// Define the stepConversion event listener separately
-function onNextButtonClick() {
-    stepConversion();
-    ButtonPressEffect(nextButton);
-}
 
-// Attach the stepConversion listener initially
-nextButton.addEventListener('click', onNextButtonClick);
+
+
+
 
 // press effect for start button
 function ButtonPressEffect(buttonElement) {
@@ -66,6 +150,12 @@ function precedence(op) {
     return 0;
 }
 
+//stepConversion event listener separately
+function onNextButtonClick() {
+    stepConversion();
+    ButtonPressEffect(nextButton);
+}
+
 function startConversion() {
     expression = document.getElementById('infixInput').value;
     postfix = '';
@@ -77,6 +167,10 @@ function startConversion() {
     document.getElementById('stackOutput').textContent = 'Stack: []';
     document.getElementById('currentPostfix').textContent = 'Postfix: ';
     document.getElementById('stepButton').disabled = false;
+
+
+    nextButton.removeEventListener('click', nextInitial);
+    nextButton.addEventListener('click', onNextButtonClick);
 
     displayNextCharacter();
 }
