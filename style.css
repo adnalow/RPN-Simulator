@@ -4,6 +4,7 @@
 }
 
 body {
+    font-family: "Pixelify Sans", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,13 +41,11 @@ body::before {
 }
 
 #title, #shadow {
-    font-family: "Pixelify Sans", sans-serif;
     position: absolute;
     top: 6%; 
     left: 50%;
     transform: translateX(-50%);
     font-size: 5em;
-    color: #FF4500;
     background: linear-gradient(0deg, #FF4500, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -62,7 +61,6 @@ body::before {
 }
 
 .main-content {
-    font-family: "Pixelify Sans", sans-serif;
     position: absolute;
     box-sizing: border-box;
     color: white;
@@ -183,6 +181,7 @@ body::before {
     height: auto;
 }
 
+
 .token-out-container {
     width: 15%;
     display: flex;
@@ -252,6 +251,9 @@ iframe {
     height: 90%;
 }
 
+
+/* animation for title */
+
 @keyframes glow {
     from {
         text-shadow: 
@@ -267,7 +269,7 @@ iframe {
     }
 }
 
-/* animation for text inside the arcade machine's screen */
+/* animation for press start */
 @keyframes pulse {
     0% {
         opacity: 1; /* Fully visible */
