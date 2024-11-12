@@ -16,13 +16,6 @@ function nextInitial() {
 startButton.addEventListener('click', startInitial);
 nextButton.addEventListener('click', nextInitial);
 
-// insert coin functionality
-let isFirstClick = true; // Flag to check if it's the first click
-let insertCoin = false;
-let isDragging = false;
-let offsetX, offsetY;
-
-
 // token out
 
 function onTokenOutClick() {
@@ -34,28 +27,28 @@ tokenOut.addEventListener('click', onTokenOutClick);
 
 
 
+// insert coin functionality
+let isFirstClick = true; // Flag to check if it's the first click
+let insertCoin = false;
+let isDragging = false;
+let offsetX, offsetY;
+
+
+
 // token movement to coin slot
 
-token.addEventListener('mousedown', (event) => {
+token.addEventListener('mousedown', () => {
     isDragging = true;
-    const tokenRect = token.getBoundingClientRect();
-    offsetX = event.clientX - tokenRect.left;
-    offsetY = event.clientY - tokenRect.top;
-    token.style.pointerEvents = 'none';
+    token.style.pointerEvents = 'none'; // Prevent interference
 });
 
 document.addEventListener('mousemove', (event) => {
     if (isDragging) {
         event.preventDefault();
-
-        // Adjusting the position considering the zoom level
-        const zoomScale = window.devicePixelRatio; // Get zoom scale factor
-
-        const adjustedX = (event.clientX - offsetX) * zoomScale; // Adjust with zoom
-        const adjustedY = (event.clientY - offsetY) * zoomScale;
-
-        token.style.left = `${adjustedX}px`;
-        token.style.top = `${adjustedY}px`;
+        
+        // Set the token's position to follow the exact cursor location
+        token.style.left = `${event.pageX}px`;
+        token.style.top = `${event.pageY}px`;
 
         // Check if token is within the coin slot bounds
         const coinSlotRect = coinSlot.getBoundingClientRect();
@@ -68,16 +61,20 @@ document.addEventListener('mousemove', (event) => {
             tokenRect.top >= coinSlotRect.top - margin &&
             tokenRect.bottom <= coinSlotRect.bottom + margin
         ) {
+            // Only execute once when token enters the slot
             insertCoin = true;
             token.parentNode.removeChild(token);
             console.log("Token entered the coin slot!");
 
-            // when insertCoin = true, go to start screen
+            // Transition to the start screen
             document.getElementById('insertCoin').style.display = 'none';
             document.getElementById('start').style.display = 'flex';
 
             startButton.removeEventListener('click', startInitial);
             startButton.addEventListener('click', onStartButtonClick);
+
+            // Stop dragging since token is now "inserted"
+            isDragging = false;
         }
     }
 });
@@ -86,25 +83,8 @@ document.addEventListener('mouseup', () => {
     if (isDragging) {
         isDragging = false;
         token.style.pointerEvents = 'auto'; // Re-enable pointer events
-        if (!insertCoin) {
-            console.log("Token dropped outside the coin slot");
-        }
     }
 });
-
-function onStartButtonClick() {
-    if (isFirstClick) {
-        showMainContent(); // Transition to main content
-        isFirstClick = false; // Set the flag to false after first click
-    } else {
-        startConversion(); // Start conversion for subsequent clicks
-    }
-    ButtonPressEffect(startButton); // Always handle the button press effect
-}
-
-
-
-
 
 
 // press effect for start button
