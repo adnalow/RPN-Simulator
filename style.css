@@ -28,8 +28,8 @@ body::before {
 
 .container {
     position: relative; /* Make container the reference for absolute positioning */
-    width: 90%; /* Responsive width */
-    max-width: 1200px; /* Limits how large the arcade machine can get */
+    width: 100%; /* Responsive width */
+    max-width: 1000px; /* Limits how large the arcade machine can get */
     height: auto; /* Maintains aspect ratio */
     text-align: center;
 }
@@ -42,10 +42,11 @@ body::before {
 
 #title, #shadow {
     position: absolute;
-    top: 6%; 
+    width: 80%;
+    top: 5.8%; 
     left: 50%;
     transform: translateX(-50%);
-    font-size: 5em;
+    font-size: clamp(2em, 10.5vw, 6.5em); /* Make the font size responsive */
     background: linear-gradient(0deg, #FF4500, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -82,19 +83,16 @@ body::before {
 }
 
 
-#insertCoin {
+#insertCoin, #start {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: pulse 1s infinite;
 }
 
 #start {
-    flex: 1;
     display: none;
-    justify-content: center;
-    align-items: center;
-    animation: pulse 1s infinite;
 }
 
 .to-postfix, .postfix-evaluation {
@@ -152,7 +150,6 @@ body::before {
     align-items: flex-start;
     margin-bottom: 10px;
     font-size: 30px;
-    /* background-color: red; */
 }
 
 .finalOutput {
@@ -161,35 +158,34 @@ body::before {
 }
 
 .controls {
-    width: 44%;
+    width: 65%; 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     position: absolute;
-    top: 47%;
-    left: 28%;
+    top: 48%;
+    left: 18%;
 }
 
 .left-items {
     display: flex;
-    width: 230px;
+    gap: 15%;
     justify-content: space-between;
 }
 
 .button, #coin_slot {
-    width: 100px;
+    width: clamp(40px, 10.5vw, 100px);
     height: auto;
 }
 
-
 .token-out-container {
-    width: 15%;
+    width: 20%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     position: absolute;
-    top: 53%;
-    left: 43%;
+    top: 55.8%;
+    left: 40%; 
 }
 
 .token {
@@ -200,14 +196,14 @@ body::before {
 }
 
 #token_out {
-    width: 250px;
+    width: 100%;
     height: auto;
 }
 
 .vid-container {
     position: absolute;
     top: 61%;
-    width: 60%;
+    width: 90%;
     height: 34%;
     left: 50%; 
     transform: translateX(-50%); 
@@ -217,13 +213,14 @@ body::before {
     flex-direction: column;
     align-items: center;
     overflow: hidden;
-    /* background-color: red; */
+    
 }
 
-.vid-container h1 {
-    font-size: 40px;
+#vid-label {
+    font-size: clamp(1em, 4vw, 3em); 
+    font-weight: bold;
     color: white;
-    margin-bottom: 10px;
+    margin-bottom: 1%;
 }
 
 .video {
@@ -245,16 +242,16 @@ body::before {
 .video-title {
     padding: 10px;
     text-align: center;
-    font-size: 28px;
+    font-size: clamp(1em, 3vw, 2em); 
     font-weight: bold;
-    min-height: 30px;
     color: white;
 }
 
 .navigation {
     display: flex;
     justify-content: center;
-    padding: 10px;
+    gap: 15%;
+    padding-bottom: 1%;
 }
 
 .nav-button {
@@ -262,10 +259,9 @@ body::before {
     font-weight: bold;
     color: white;
     border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
+    padding: 5% 15%;
     cursor: pointer;
-    font-size: 20px;
+    font-size: clamp(0.5em, 3vw, 1.5em);
     border-radius: 5px;
     transition: background-color 0.3s;
 }
@@ -296,11 +292,7 @@ body::before {
     cursor: not-allowed;
 }
 
-
-
-
 /* animation for title */
-
 @keyframes glow {
     from {
         text-shadow: 
@@ -328,3 +320,28 @@ body::before {
         opacity: 1; /* Back to fully visible */
     }
 }
+
+/* For tablets */
+/* @media (max-width: 1024px) {
+    .container {
+        background-color: pink;
+    } 
+} */
+
+/* Smaller tablets */
+/* @media (max-width: 768px) {
+    .container {
+        background-color: blue;
+    }
+} */
+
+/* Mobile devices */
+/* @media (max-width: 480px) {
+    .container {
+        background-color: violet;
+    }
+} */
+
+
+
+
