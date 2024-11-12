@@ -86,6 +86,15 @@ document.addEventListener('mouseup', () => {
     }
 });
 
+function onStartButtonClick() {
+    if (isFirstClick) {
+        showMainContent(); // Transition to main content
+        isFirstClick = false; // Set the flag to false after first click
+    } else {
+        startConversion(); // Start conversion for subsequent clicks
+    }
+    ButtonPressEffect(startButton); // Always handle the button press effect
+}
 
 // press effect for start button
 function ButtonPressEffect(buttonElement) {
@@ -353,7 +362,6 @@ const videos = [
     { id: 'vXPL6UavUeA?si=XnSRXCkF36Rd9-k1', title: 'INFIX TO POSTFIX CONVERSION' },
     { id: 'vq-nUF0G4fI?si=9TJ6Dz3FungziQWr', title: 'INFIX TO POSTFIX USING STACK' },
     { id: '84BsI5VJPq4?si=YNXATQ00WSHc2BPu', title: 'EVALUATION OF POSTFIX EXPRESSION' },
-    { id: 'MeRb_1bddWg?si=dqNUVEE_GmODyk0B', title: 'EVALUATION OF PREFIX AND POSTFIX EXPRESSIONS' }
 ];
 
 let currentVideoIndex = 0;
