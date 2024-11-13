@@ -11,27 +11,28 @@
 </head>
 <body>
     <div class="container">
+        
         <!-- Arcade Machine Frame -->
         <img src="assets/images/arcade_machine_2.png" alt="Arcade Machine" id="arcade-machine">
 
         <!-- Title of the Arcade Machine -->
-        <h1 id="shadow">RPN SIMULATOR</h1> 
-        <h1 id="title">RPN SIMULATOR</h1>
+        <h1 class="gradient" id="shadow">RPN SIMULATOR</h1> 
+        <h1 class="gradient" id="title">RPN SIMULATOR</h1>
 
         <!-- Main Content -->
         <div class="main-content">
 
             <!-- First Display -->
-            <h1 id="insertCoin">INSERT COIN!</h1>
+            <h1 class="arcade-prompt gradient" id="insertCoin">INSERT COIN!</h1>
 
-            <!-- Second Display Display -->
-            <h1 id="start">PRESS START</h1>
+            <!-- Second Display -->
+            <h1 class="arcade-prompt gradient" id="start">PRESS START</h1>
 
             <!-- Infix to Postfix -->
             <div class="to-postfix hidden">
-                <h1>INFIX TO POSTFIX</h1>
-                <div class="infix">
-                    <label>Enter Expression:</label>
+                <div class="process-title gradient">INFIX TO POSTFIX</div>
+                <div class="expression-container">
+                    <div class="expression-label">Enter Expression:</div>
                     <input type="text" id="infixInput" autocomplete="off">
                     <div class="outputs">
                         <div class="stack-output" id="stackOutput">Stack: []</div>
@@ -45,9 +46,9 @@
 
             <!-- Postfix Evaluation -->
             <div class="postfix-evaluation hidden">
-                <h1>POSTFIX EVALUATOR</h1>
-                <div class="postfix">
-                    <label>To be Evaluated: </label>
+                <div class="process-title gradient">POSTFIX EVALUATOR</div>
+                <div class="expression-container">
+                    <div class="expression-label">To be Evaluated: </div>
                     <div id="postfix-final"></div>
                     <div class="outputs">
                         <div class="stack-output" id="evaluationStackOutput">Stack: []</div>
@@ -71,7 +72,7 @@
         </div>
 
 
-        <!-- token out -->
+        <!-- Token Container -->
         <div class="token-out-container">
             <img src="assets/images/token-out_2.png" alt="Token Out" id="token_out"> 
         </div>
@@ -89,6 +90,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Token -->
     <img src="assets/images/token.png" alt="token" class="token hidden" id="draggable-token">
 
     <script src="script.js"></script>
