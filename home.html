@@ -39,8 +39,14 @@
                         <div class="postfix-output" id="currentPostfix">Postfix: </div>
                         <div class="outputUI" id="outputDisplay">To be evaluated: </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="finalOutput" id="postfixOutput"></div> 
+            <!-- Infix to Postfix Answer -->
+            <div class="finalOutputContainer hidden">
+                <div class="process-title final-title gradient">INFIX TO POSTFIX</div>
+                <div class="finalOutput" id="postfixOutput">
+                    <p id="finalPostfixExpression" class="gradient"></p>
                 </div>
             </div>
 
@@ -56,10 +62,19 @@
                         <div class="operations-output" id="operationsOutput">Operations: []</div>
                         <div class="current-output" id="currentOutput"></div>
                     </div>
-
-                    <div class="finalOutput" id="evaluationOutput"></div>
                 </div>
             </div>
+
+            <!-- Postfix Evaluation Answer -->
+            <div class="evaluatedOutputContainer hidden">
+                <div class="process-title final-title gradient">POSTFIX EVALUATOR</div>
+                <div class="finalEvaluation" id="evaluationOutput">
+                    <p id="finalPostfixEvaluation" class="gradient"></p>
+                </div>
+            </div>
+
+            <h1 class="arcade-prompt gradient" id="gameOver">GAME OVER</h1>
+
         </div>
 
         <!-- Arcade Machine Controls -->
