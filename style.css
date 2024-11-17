@@ -11,7 +11,7 @@ body {
     min-height: 100vh;
     background-image: url(assets/images/arcade_background.png);
     background-size: cover;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     background-position: center;
     position: relative;
 }
@@ -22,39 +22,49 @@ body::before {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: -1;
 }
 
 .container {
-    position: relative; /* Make container the reference for absolute positioning */
-    width: 100%; /* Responsive width */
-    max-width: 1000px; /* Limits how large the arcade machine can get */
-    height: auto; /* Maintains aspect ratio */
+    position: relative;
+    /* Make container the reference for absolute positioning */
+    width: 100%;
+    /* Responsive width */
+    max-width: 1000px;
+    /* Limits how large the arcade machine can get */
+    height: auto;
+    /* Maintains aspect ratio */
     text-align: center;
 }
 
 #arcade-machine {
-    width: 100%; /* Ensures image is responsive */
+    width: 100%;
+    /* Ensures image is responsive */
     height: auto;
-    
+
 }
 
-#title, #shadow {
+#title,
+#shadow {
     position: absolute;
     width: 80%;
-    top: 5.8%; 
+    top: 5.8%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: clamp(2em, 10.5vw, 6.5em); /* Make the font size responsive */
+    font-size: clamp(2em, 10.5vw, 6.5em);
+    /* Make the font size responsive */
 }
 
 #shadow {
     /* Glowing effect behind the text */
-    text-shadow: 
-        0 0 10px #FF4500,    /* Inner glow */
-        0 0 20px #FFD700,    /* Middle glow */
-        0 0 30px #FF4500;   /* Outer glow */
+    text-shadow:
+        0 0 10px #FF4500,
+        /* Inner glow */
+        0 0 20px #FFD700,
+        /* Middle glow */
+        0 0 30px #FF4500;
+    /* Outer glow */
     animation: glow 1.5s ease-in-out infinite alternate;
 }
 
@@ -63,13 +73,16 @@ body::before {
     box-sizing: border-box;
     color: white;
     top: 22.2%;
-    left: 50%; /* Centers horizontally */
-    transform: translateX(-50%); /* Offsets the element by 50% of its width to ensure it's truly centered */
+    left: 50%;
+    /* Centers horizontally */
+    transform: translateX(-50%);
+    /* Offsets the element by 50% of its width to ensure it's truly centered */
     height: 25%;
     width: 67%;
     padding: 2%;
     display: flex;
-    flex-direction: column; /* Stack h1 and .infix vertically */
+    flex-direction: column;
+    /* Stack h1 and .infix vertically */
 }
 
 .arcade-prompt {
@@ -88,7 +101,9 @@ body::before {
 }
 
 
-#insertCoin, #start {
+#insertCoin,
+#start,
+#gameOver {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -96,11 +111,12 @@ body::before {
     animation: pulse 1s infinite;
 }
 
-#start {
+#start, #gameOver {
     display: none;
 }
 
-.to-postfix, .postfix-evaluation {
+.to-postfix,
+.postfix-evaluation {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -119,7 +135,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     padding: 1%;
-    
+
 }
 
 .expression-label {
@@ -127,11 +143,11 @@ body::before {
 }
 
 #infixInput {
-    font-family: "Pixelify Sans", sans-serif; 
+    font-family: "Pixelify Sans", sans-serif;
     font-size: clamp(1.1em, 5vw, 2.6em);
-    color: #FFFFFF; 
-    background-color: transparent; 
-    border: 1.5px solid #FFFFFF; 
+    color: #FFFFFF;
+    background-color: transparent;
+    border: 1.5px solid #FFFFFF;
     border-style: dashed;
     margin-top: 1%;
     margin-bottom: 6%;
@@ -142,7 +158,8 @@ body::before {
 
 /* Prevent the background from turning white */
 #infixInput:focus {
-    background-color: transparent; /* Ensures the background stays transparent */
+    background-color: transparent;
+    /* Ensures the background stays transparent */
 }
 
 #postfix-final {
@@ -150,7 +167,7 @@ body::before {
     color: #FFD700;
 }
 
-.outputs{
+.outputs {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -159,13 +176,21 @@ body::before {
     font-size: clamp(1em, 4vw, 2.4em);
 }
 
-.finalOutput {
+.finalOutputContainer, .evaluatedOutputContainer {
+    height: 100%;
+}
+
+
+.finalOutput, .finalEvaluation {
+    margin: auto;
+    height: 50%;
+    padding: 10px;
     font-size: clamp(1.1em, 4.5vw, 3em);
     animation: pulse 1.5s infinite;
 }
 
 .controls {
-    width: 65%; 
+    width: 65%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -180,7 +205,8 @@ body::before {
     justify-content: space-between;
 }
 
-.button, #coin_slot {
+.button,
+#coin_slot {
     width: clamp(40px, 10.5vw, 100px);
     height: auto;
 }
@@ -192,14 +218,16 @@ body::before {
     justify-content: center;
     position: absolute;
     top: 55.8%;
-    left: 40%; 
+    left: 40%;
 }
 
 .token {
     width: 100px;
     height: 100px;
-    cursor: move; /* Change cursor to indicate draggable */
-    position: absolute; /* Allow free positioning */
+    cursor: move;
+    /* Change cursor to indicate draggable */
+    position: absolute;
+    /* Allow free positioning */
 }
 
 #token_out {
@@ -212,19 +240,19 @@ body::before {
     top: 61%;
     width: 90%;
     height: 34%;
-    left: 50%; 
-    transform: translateX(-50%); 
+    left: 50%;
+    transform: translateX(-50%);
     padding: 2.5%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
-    
+
 }
 
 #vid-label {
-    font-size: clamp(1em, 4vw, 3em); 
+    font-size: clamp(1em, 4vw, 3em);
     font-weight: bold;
     color: white;
     margin-bottom: 1%;
@@ -249,7 +277,7 @@ body::before {
 .video-title {
     padding: 2%;
     text-align: center;
-    font-size: clamp(1em, 4vw, 2em); 
+    font-size: clamp(1em, 4vw, 2em);
     font-weight: bold;
     color: white;
 }
@@ -262,7 +290,7 @@ body::before {
 }
 
 .nav-button {
-    font-family: "Pixelify Sans", sans-serif; 
+    font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
     color: white;
     border: none;
@@ -302,29 +330,35 @@ body::before {
 /* animation for title */
 @keyframes glow {
     from {
-        text-shadow: 
-            0 0 10px #FF4500, 
-            0 0 20px #FFD700, 
-            0 0 30px #FF4500; 
+        text-shadow:
+            0 0 10px #FF4500,
+            0 0 20px #FFD700,
+            0 0 30px #FF4500;
     }
+
     to {
-        text-shadow: 
-            0 0 20px #FF4500, 
-            0 0 30px #FFD700, 
-            0 0 40px #FF4500; 
+        text-shadow:
+            0 0 20px #FF4500,
+            0 0 30px #FFD700,
+            0 0 40px #FF4500;
     }
 }
 
 /* animation for press start */
 @keyframes pulse {
     0% {
-        opacity: 1; /* Fully visible */
+        opacity: 1;
+        /* Fully visible */
     }
+
     50% {
-        opacity: 0; /* Fully invisible */
+        opacity: 0;
+        /* Fully invisible */
     }
+
     100% {
-        opacity: 1; /* Back to fully visible */
+        opacity: 1;
+        /* Back to fully visible */
     }
 }
 

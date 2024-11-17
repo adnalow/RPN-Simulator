@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <link rel = "stylesheet" href = "style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <title>RPN Simulator</title>
 </head>
+
 <body>
     <div class="container">
-        
+
         <!-- Arcade Machine Frame -->
         <img src="assets/images/arcade_machine_2.png" alt="Arcade Machine" id="arcade-machine">
 
         <!-- Title of the Arcade Machine -->
-        <h1 class="gradient" id="shadow">RPN SIMULATOR</h1> 
+        <h1 class="gradient" id="shadow">RPN SIMULATOR</h1>
         <h1 class="gradient" id="title">RPN SIMULATOR</h1>
 
         <!-- Main Content -->
@@ -39,8 +42,14 @@
                         <div class="postfix-output" id="currentPostfix">Postfix: </div>
                         <div class="outputUI" id="outputDisplay">To be evaluated: </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="finalOutput" id="postfixOutput"></div> 
+            <!-- Infix to Postfix Answer -->
+            <div class="finalOutputContainer hidden">
+                <div class="process-title final-title gradient">INFIX TO POSTFIX</div>
+                <div class="finalOutput" id="postfixOutput">
+                    <p id="finalPostfixExpression" class="gradient"></p>
                 </div>
             </div>
 
@@ -57,24 +66,36 @@
                         <div class="current-output" id="currentOutput"></div>
                     </div>
 
-                    <div class="finalOutput" id="evaluationOutput"></div>
                 </div>
             </div>
+
+            <!-- Postfix Evaluation Answer -->
+            <div class="evaluatedOutputContainer hidden">
+                <div class="process-title final-title gradient">POSTFIX EVALUATOR</div>
+                <div class="finalEvaluation" id="evaluationOutput">
+                    <p id="finalPostfixEvaluation" class="gradient"></p>
+                </div>
+            </div>
+
+            <h1 class="arcade-prompt gradient" id="gameOver">GAME OVER</h1>
+
         </div>
+
 
         <!-- Arcade Machine Controls -->
         <div class="controls">
             <div class="left-items">
-                <img src="assets/images/start-button.png" alt="Start Button" class="button" id="startButton"> 
+                <img src="assets/images/start-button.png" alt="Start Button" class="button" id="startButton">
                 <img src="assets/images/next-button.png" alt="Next Button" class="button" id="stepButton">
             </div>
-            <div class="right-items" id="coin-slot-container"><img src="assets/images/coin_slot.png" alt="coin slot" id="coin_slot"></div>
+            <div class="right-items" id="coin-slot-container"><img src="assets/images/coin_slot.png" alt="coin slot"
+                    id="coin_slot"></div>
         </div>
 
 
         <!-- Token Container -->
         <div class="token-out-container">
-            <img src="assets/images/token-out_2.png" alt="Token Out" id="token_out"> 
+            <img src="assets/images/token-out_2.png" alt="Token Out" id="token_out">
         </div>
 
         <!-- Videos -->
@@ -96,4 +117,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
