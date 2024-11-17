@@ -4,7 +4,6 @@
 }
 
 body {
-    font-family: "Pixelify Sans", sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +26,7 @@ body::before {
 }
 
 .container {
+    font-family: 'Press Start 2P', cursive;
     position: relative; /* Make container the reference for absolute positioning */
     width: 100%; /* Responsive width */
     max-width: 1000px; /* Limits how large the arcade machine can get */
@@ -43,22 +43,23 @@ body::before {
 #title, #shadow {
     position: absolute;
     width: 80%;
-    top: 5.8%; 
+    top: 5%; 
     left: 50%;
     transform: translateX(-50%);
-    font-size: clamp(2em, 10.5vw, 6.5em); /* Make the font size responsive */
+    font-size: clamp(2em, 8vw, 5em); /* Make the font size responsive */
 }
 
 #shadow {
     /* Glowing effect behind the text */
     text-shadow: 
         0 0 10px #FF4500,    /* Inner glow */
-        0 0 20px #FFD700,    /* Middle glow */
-        0 0 30px #FF4500;   /* Outer glow */
+        0 0 15px #FFD700,    /* Middle glow */
+        0 0 20px #FF4500;   /* Outer glow */
     animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 .main-content {
+    font-family: "Pixelify Sans", sans-serif; 
     position: absolute;
     box-sizing: border-box;
     color: white;
@@ -82,7 +83,7 @@ body::before {
 }
 
 .gradient {
-    background: linear-gradient(0deg, #FF4500, #FFD700);
+    background: linear-gradient(200deg, #FF4500, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -224,10 +225,10 @@ body::before {
 }
 
 #vid-label {
-    font-size: clamp(1em, 4vw, 3em); 
+    font-size: clamp(0.5em, 3.5vw, 2em); 
     font-weight: bold;
     color: white;
-    margin-bottom: 1%;
+    margin-bottom: 1.5%;
 }
 
 .video {
@@ -236,20 +237,26 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #EF4E3C;
-    border-radius: 10px;
+    border: clamp(4px, 1vw, 8px) solid #EF4E3C;
+    border-radius: 0.3em;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.video:hover {
+    transform: scale(1.02);
 }
 
 .video iframe {
-    width: 95%;
-    height: 90%;
-    border: none;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .video-title {
-    padding: 2%;
+    padding: 3%;
     text-align: center;
-    font-size: clamp(1em, 4vw, 2em); 
+    font-size: clamp(0.5em, 2.4vw, 1.5em); 
     font-weight: bold;
     color: white;
 }
@@ -262,40 +269,29 @@ body::before {
 }
 
 .nav-button {
-    font-family: "Pixelify Sans", sans-serif; 
+    font-family: "Press Start 2P", cursive; 
     font-weight: bold;
     color: white;
     border: none;
-    padding: 5% 15%;
+    padding: 10% 15%;
     cursor: pointer;
-    font-size: clamp(0.5em, 3vw, 1.5em);
+    font-size: clamp(0.5em, 2vw, 1em);
     border-radius: 5px;
     transition: background-color 0.3s;
-}
-
-#nextButton {
     background-color: #EF4E3C;
+    border: clamp(2px, 0.5vw, 4px) solid #f27162;
+    cursor: pointer;
 }
 
-#nextButton:hover {
-    background-color: #F3796B;
+.nav-button:hover {
+    background-color: #d74636;
+    border-color: #f38376;
+    transform: scale(1.05);
 }
 
-#nextButton:disabled {
-    background-color: #E5B6B2;
-    cursor: not-allowed;
-}
-
-#prevButton {
-    background-color: #FAC963;
-}
-
-#prevButton:hover {
-    background-color: #F1B54F;
-}
-
-#prevButton:disabled {
-    background-color: #FCDA94;
+.nav-button:disabled {
+    background-color: #f38376;
+    border-color: #f8b8b1;
     cursor: not-allowed;
 }
 
@@ -304,14 +300,14 @@ body::before {
     from {
         text-shadow: 
             0 0 10px #FF4500, 
-            0 0 20px #FFD700, 
-            0 0 30px #FF4500; 
+            0 0 15px #FFD700, 
+            0 0 20px #FF4500; 
     }
     to {
         text-shadow: 
-            0 0 20px #FF4500, 
-            0 0 30px #FFD700, 
-            0 0 40px #FF4500; 
+            0 0 15px #FF4500, 
+            0 0 20px #FFD700, 
+            0 0 35px #FF4500; 
     }
 }
 
