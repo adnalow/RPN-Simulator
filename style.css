@@ -197,8 +197,8 @@ body::before {
 }
 
 .token {
-    width: 100px;
-    height: 100px;
+    width: clamp(40px, 8vw, 80px);
+    height: auto;
     cursor: move; /* Change cursor to indicate draggable */
     position: absolute; /* Allow free positioning */
 }
