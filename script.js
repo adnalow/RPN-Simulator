@@ -556,7 +556,7 @@ function showFinalOutput()
     {
         document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
         document.getElementById('stepButton').disabled = false;
-        document.getElementById('postfixOutput').innerHTML = `Final Postfix:<br>${postfixFinal}`;
+        document.getElementById('postfixOutput').innerHTML = `FINAL POSTFIX:<br><span style="color: #FFD700">${postfixFinal}</span><br>PRESS NEXT`;
     } else
     {
         console.error("Element with id 'finalPostfixExpression' not found in the DOM.");
@@ -754,7 +754,7 @@ function showEvaluatedOutput()
     if (finalPostfixElement)
     {
         document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-        finalPostfixElement.innerHTML = `Final Postfix:<br>${placeholderStack[0]}`;
+        finalPostfixElement.innerHTML = `FINAL ANSWER:<br><span style="color: #FFD700">${placeholderStack[0]}</span>`;
     } else
     {
         console.error("Element with id 'evaluationOutput' not found in the DOM.");

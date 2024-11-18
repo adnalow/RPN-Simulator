@@ -23,15 +23,15 @@
         <div class="main-content">
 
             <!-- First Display -->
-            <h1 class="arcade-prompt gradient" id="insertCoin">INSERT COIN!</h1>
+            <h1 class="arcade-prompt gradient flex" id="insertCoin">INSERT COIN!</h1>
 
             <!-- Second Display -->
-            <h1 class="arcade-prompt gradient" id="start">PRESS START</h1>
+            <h1 class="arcade-prompt gradient flex" id="start">PRESS START</h1>
 
             <!-- Infix to Postfix -->
-            <div class="to-postfix hidden">
+            <div class="to-postfix flex hidden">
                 <div class="process-title gradient">INFIX TO POSTFIX</div>
-                <div class="expression-container">
+                <div class="expression-container flex">
                     <div class="expression-label">Enter Expression:</div>
                     <input type="text" id="infixInput" autocomplete="off">
                     <div class="outputs">
@@ -43,17 +43,17 @@
             </div>
 
             <!-- Infix to Postfix Answer -->
-            <div class="finalOutputContainer hidden">
+            <div class="finalOutputContainer flex hidden">
                 <div class="process-title final-title gradient">INFIX TO POSTFIX</div>
                 <div class="finalOutput" id="postfixOutput">
-                    <p id="finalPostfixExpression" class="gradient"></p>
+                    <div id="finalPostfixExpression"></div>
                 </div>
             </div>
 
             <!-- Postfix Evaluation -->
-            <div class="postfix-evaluation hidden">
+            <div class="postfix-evaluation flex hidden">
                 <div class="process-title gradient">POSTFIX EVALUATOR</div>
-                <div class="expression-container">
+                <div class="expression-container flex">
                     <div class="expression-label">To be Evaluated: </div>
                     <div id="postfix-final"></div>
                     <div class="outputs">
@@ -66,15 +66,15 @@
             </div>
 
             <!-- Postfix Evaluation Answer -->
-            <div class="evaluatedOutputContainer hidden">
+            <div class="evaluatedOutputContainer flex hidden">
                 <div class="process-title final-title gradient">POSTFIX EVALUATOR</div>
                 <div class="finalEvaluation" id="evaluationOutput">
                     <p id="finalPostfixEvaluation" class="gradient"></p>
                 </div>
             </div>
 
-            <h1 class="arcade-prompt gradient" id="gameOver">GAME OVER</h1>
-
+            <!-- Game Over -->
+            <h1 class="arcade-prompt gradient flex" id="gameOver">GAME OVER</h1>
         </div>
 
         <!-- Arcade Machine Controls -->
@@ -95,7 +95,7 @@
         <!-- Videos -->
         <div class="vid-container">
             <div id="vid-label">VIDEOS</div>
-            <div class="video">
+            <div class="video flex">
                 <iframe id="videoPlayer" frameborder="0" allowfullscreen></iframe>
             </div>
             <div id="videoTitle" class="video-title"></div>
