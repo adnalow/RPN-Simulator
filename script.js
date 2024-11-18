@@ -100,11 +100,13 @@ document.addEventListener('mouseup', () =>
 function onStartButtonClick()
 {
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
+    document.getElementById('outputDisplay').textContent = '';
     if (isFirstClick)
     {
         showMainContent(); // Transition to main content
         isFirstClick = false; // Set the flag to false after first click
-        if(isGameOver){
+        if (isGameOver)
+        {
             resetToStart();
         }
     } else
@@ -148,8 +150,9 @@ function showMainContent()
     document.getElementById('start').style.display = 'none';
 }
 
-function resetToStart() {
-    // Reset all variables
+function resetToStart()
+{
+    // Reset all necessary flags and variables
     stack = [];
     postfix = '';
     index = 0;
@@ -165,7 +168,7 @@ function resetToStart() {
     isGameOver = false;
     isFirstClick = true;
 
-    // Reset all relevant UI elements
+    // Clear input and output fields
     document.getElementById('infixInput').value = '';
     document.getElementById('postfixOutput').textContent = '';
     document.getElementById('stackOutput').textContent = 'Stack: []';
@@ -177,7 +180,7 @@ function resetToStart() {
     document.getElementById('outputDisplay').textContent = '';
     document.getElementById('currentOutput').textContent = '';
 
-    // Hide all containers except the starting point
+    // Reset visibility of containers
     document.querySelector('.to-postfix').classList.add('hidden');
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.postfix-evaluation').classList.add('hidden');
@@ -186,30 +189,32 @@ function resetToStart() {
     document.getElementById('start').style.display = 'none';
     document.getElementById('insertCoin').style.display = 'flex';
 
-    // Reset button events
+    // Reset event listeners
     startButton.removeEventListener('click', onStartPostfix);
     startButton.addEventListener('click', startInitial);
     nextButton.addEventListener('click', nextInitial);
     nextButton.removeEventListener('click', gameoverDisplay);
- 
-
 }
 
+
 // Function to trigger reset after GAME OVER
-function gameoverDisplay() {
+function gameoverDisplay()
+{
+    // Display the "Game Over" screen
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     document.getElementById('gameOver').style.display = 'flex';
     document.getElementById('insertCoin').style.display = 'none';
+
     isGameOver = true;
 
-    // Set a 5-second timeout to reset the program
-    if (isGameOver) {
-        setTimeout(() => {
-            onNextButtonClick();
-        }, 5000); // 
-    }
+    // Automatically reset after 5 seconds
+    setTimeout(() =>
+    {
+        resetToStart(); // Reset the game
+    }, 2000);
 }
+
 
 // Infix to Postfix
 let stack = [];
@@ -230,14 +235,15 @@ function precedence(op)
 function onNextButtonClick()
 {
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
-    if (!isGameOver) {
+    if (!isGameOver)
+    {
         stepConversion();
         ButtonPressEffect(nextButton);
     }
-    else{
+    else
+    {
         resetToStart();
     }
-
 }
 
 function checkExpressionType()
@@ -373,6 +379,7 @@ function displayNextCharacter()
         document.getElementById('outputDisplay').textContent = `Next Character: ${currentToken}`;
     }
 }
+
 
 function stepConversion()
 {
@@ -738,28 +745,25 @@ function startfinalEvaluationButton()
 function nextfinalEvaluationButton()
 {
     // Display final output and trigger button effect
-        showEvaluatedOutput();
-        ButtonPressEffect(nextButton);
-    
-        nextButton.removeEventListener('click', onNextButtonClick);
-        nextButton.addEventListener('click', gameoverDisplay);
-    
-        
-        startButton.removeEventListener('click', onStartEvaluation);
-        startButton.addEventListener('click', startfinalEvaluationButton);
-    
+    showEvaluatedOutput();
+    ButtonPressEffect(nextButton);
+
+    nextButton.removeEventListener('click', onStepEvaluation);
+    nextButton.addEventListener('click', gameoverDisplay);
 
 
+    startButton.removeEventListener('click', onStartEvaluation);
+    startButton.addEventListener('click', startfinalEvaluationButton);
 }
-
 
 function showEvaluatedOutput()
 {
-    if(!isGameOver){
+    if (!isGameOver)
+    {
         document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
         document.querySelector('.postfix-evaluation').classList.add('hidden');
         document.querySelector('.evaluatedOutputContainer').classList.remove('hidden');
-    
+
         const finalPostfixElement = document.getElementById('evaluationOutput');
         if (finalPostfixElement)
         {
@@ -770,7 +774,8 @@ function showEvaluatedOutput()
             console.error("Element with id 'evaluationOutput' not found in the DOM.");
         }
     }
-    else{
+    else
+    {
         resetToStart();
     }
 
