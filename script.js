@@ -18,12 +18,14 @@ function nextInitial()
 startButton.addEventListener('click', startInitial);
 nextButton.addEventListener('click', nextInitial);
 
+
 // token out
 
 function onTokenOutClick()
 {
     document.querySelector('.token').classList.remove('hidden');
 }
+
 
 
 tokenOut.addEventListener('click', onTokenOutClick);
@@ -35,7 +37,7 @@ let isFirstClick = true; // Flag to check if it's the first click
 let insertCoin = false;
 let isDragging = false;
 let offsetX, offsetY;
-
+let isGameOver = false;
 
 
 // token movement to coin slot
@@ -70,7 +72,7 @@ document.addEventListener('mousemove', (event) =>
         {
             // Only execute once when token enters the slot
             insertCoin = true;
-            token.parentNode.removeChild(token);
+            token.classList.add('hidden');
             console.log("Token entered the coin slot!");
 
             // Transition to the start screen
@@ -101,6 +103,9 @@ function onStartButtonClick()
     {
         showMainContent(); // Transition to main content
         isFirstClick = false; // Set the flag to false after first click
+        if(isGameOver){
+            resetToStart();
+        }
     } else
     {
         startConversion(); // Start conversion for subsequent clicks
@@ -155,6 +160,8 @@ function resetToStart() {
     evaluationIndex = 0;
     operations = [];
     resultStack = [];
+    isDragging = true;
+    isGameOver = false;
     isFirstClick = true;
 
     // Reset all relevant UI elements
@@ -181,8 +188,10 @@ function resetToStart() {
     // Reset button events
     startButton.removeEventListener('click', onStartPostfix);
     startButton.addEventListener('click', startInitial);
-    nextButton.removeEventListener('click', transitionToFinalEvaluation);
     nextButton.addEventListener('click', nextInitial);
+    nextButton.removeEventListener('click', gameoverDisplay);
+ 
+
 }
 
 // Function to trigger reset after GAME OVER
@@ -190,9 +199,15 @@ function gameoverDisplay() {
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     document.getElementById('gameOver').style.display = 'flex';
+    document.getElementById('insertCoin').style.display = 'none';
+    isGameOver = true;
 
     // Set a 5-second timeout to reset the program
-    setTimeout(resetToStart, 5000);
+    if (isGameOver) {
+        setTimeout(() => {
+            onNextButtonClick();
+        }, 5000); // 
+    }
 }
 
 // Infix to Postfix
@@ -201,7 +216,6 @@ let postfix = '';
 let index = 0;
 let expression = '';
 let currentToken = '';
-
 let postfixFinal = '';
 
 function precedence(op)
@@ -214,8 +228,14 @@ function precedence(op)
 //stepConversion event listener separately
 function onNextButtonClick()
 {
-    stepConversion();
-    ButtonPressEffect(nextButton);
+    if (!isGameOver) {
+        stepConversion();
+        ButtonPressEffect(nextButton);
+    }
+    else{
+        resetToStart();
+    }
+
 }
 
 function checkExpressionType()
@@ -556,7 +576,7 @@ function showFinalOutput()
     {
         document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
         document.getElementById('stepButton').disabled = false;
-        document.getElementById('postfixOutput').innerHTML = `FINAL POSTFIX:<br><span style="color: #FFD700">${postfixFinal}</span><br>PRESS NEXT`;
+        document.getElementById('postfixOutput').innerHTML = `Final Postfix:<br>${postfixFinal}`;
     } else
     {
         console.error("Element with id 'finalPostfixExpression' not found in the DOM.");
@@ -716,49 +736,42 @@ function startfinalEvaluationButton()
 function nextfinalEvaluationButton()
 {
     // Display final output and trigger button effect
-    showEvaluatedOutput();
-    ButtonPressEffect(nextButton);
-
-    nextButton.removeEventListener('click', onNextButtonClick);
-    nextButton.addEventListener('click', gameoverDisplay);
-
+        showEvaluatedOutput();
+        ButtonPressEffect(nextButton);
     
-    startButton.removeEventListener('click', onStartEvaluation);
-    startButton.addEventListener('click', startfinalEvaluationButton);
+        nextButton.removeEventListener('click', onNextButtonClick);
+        nextButton.addEventListener('click', gameoverDisplay);
+    
+        
+        startButton.removeEventListener('click', onStartEvaluation);
+        startButton.addEventListener('click', startfinalEvaluationButton);
+    
+
+
 }
 
-function transitionToFinalEvaluation()
-{
-    document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
-    document.querySelector('.postfix-evaluation').classList.add('hidden');
-    document.querySelector('.evaluatedOutputContainer').classList.remove('hidden');
-
-    document.getElementById('postfix-final').textContent = postfixFinal;
-
-    // Update button event listeners for evaluation phase
-    nextButton.removeEventListener('click', onStepEvaluation);
-    nextButton.addEventListener('click', nextfinalEvaluationButton);
-
-    // Reset start button for the evaluation phase
-    startButton.removeEventListener('click', onStartEvaluation);
-    startButton.addEventListener('click', startfinalEvaluationButton);
-}
 
 function showEvaluatedOutput()
 {
-    document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
-    document.querySelector('.postfix-evaluation').classList.add('hidden');
-    document.querySelector('.evaluatedOutputContainer').classList.remove('hidden');
-
-    const finalPostfixElement = document.getElementById('evaluationOutput');
-    if (finalPostfixElement)
-    {
-        document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-        finalPostfixElement.innerHTML = `FINAL ANSWER:<br><span style="color: #FFD700">${placeholderStack[0]}</span>`;
-    } else
-    {
-        console.error("Element with id 'evaluationOutput' not found in the DOM.");
+    if(!isGameOver){
+        document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
+        document.querySelector('.postfix-evaluation').classList.add('hidden');
+        document.querySelector('.evaluatedOutputContainer').classList.remove('hidden');
+    
+        const finalPostfixElement = document.getElementById('evaluationOutput');
+        if (finalPostfixElement)
+        {
+            document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
+            finalPostfixElement.innerHTML = `Final Answer:<br>${placeholderStack[0]}`;
+        } else
+        {
+            console.error("Element with id 'evaluationOutput' not found in the DOM.");
+        }
     }
+    else{
+        resetToStart();
+    }
+
 }
 
 // Video Player
