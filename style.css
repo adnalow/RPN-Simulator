@@ -101,8 +101,13 @@ body::before {
 }
 
 
-#insertCoin, #start, #gameOver {
+#insertCoin, #start{
     animation: pulse 1s infinite;
+}
+
+#gameOver {
+    opacity: 0; /* Start fully transparent */
+    animation: fadeInArcade 3s ease-in forwards; /* Apply the fade-in animation */
 }
 
 #start, #gameOver {
@@ -340,5 +345,15 @@ body::before {
     100% {
         opacity: 1;
         /* Back to fully visible */
+    }
+}
+
+/* Fade-in animation for game over */
+@keyframes fadeInArcade {
+    0% {
+        opacity: 0; /* Fully transparent at the start */
+    }
+    100% {
+        opacity: 1; /* Fully visible at the end */
     }
 }
