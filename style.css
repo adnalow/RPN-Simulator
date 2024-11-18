@@ -25,8 +25,14 @@ body::before {
     z-index: -1;
 }
 
-.container {
+.flex {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.container {
     font-family: 'Press Start 2P', cursive;
     position: relative; /* Make container the reference for absolute positioning */
     width: 100%; /* Responsive width */
@@ -42,11 +48,9 @@ body::before {
 
 }
 
-#title,
-#shadow {
+#title, #shadow {
     position: absolute;
     width: 80%;
-
     top: 5%; 
     left: 50%;
     transform: translateX(-50%);
@@ -82,7 +86,7 @@ body::before {
 }
 
 .arcade-prompt {
-    font-size: clamp(2em, 6vw, 4em);
+    font-size: clamp(1.5em, 6vw, 4em);
 }
 
 .process-title {
@@ -97,13 +101,7 @@ body::before {
 }
 
 
-#insertCoin,
-#start,
-#gameOver {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#insertCoin, #start, #gameOver {
     animation: pulse 1s infinite;
 }
 
@@ -111,13 +109,8 @@ body::before {
     display: none;
 }
 
-.to-postfix,
-.postfix-evaluation {
-    flex: 1;
-    display: flex;
+.to-postfix, .postfix-evaluation, .finalOutputContainer, .evaluatedOutputContainer {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .hidden {
@@ -125,13 +118,9 @@ body::before {
 }
 
 .expression-container {
-    flex: 1;
     width: 90%;
-    display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 1%;
-
 }
 
 .expression-label {
@@ -143,7 +132,7 @@ body::before {
     font-size: clamp(1.1em, 5vw, 2.6em);
     color: #FFFFFF;
     background-color: transparent;
-    border: 1.5px solid #FFFFFF;
+    border: 2px solid #FFFFFF;
     border-style: dashed;
     margin-top: 1%;
     margin-bottom: 6%;
@@ -159,8 +148,10 @@ body::before {
 }
 
 #postfix-final {
-    font-size: clamp(1.3em, 6vw, 3.5em);
+    font-size: clamp(1em, 4.5vw, 3em);
     color: #FFD700;
+    padding-bottom: 3%;
+
 }
 
 .outputs {
@@ -172,17 +163,22 @@ body::before {
     font-size: clamp(1em, 4vw, 2.4em);
 }
 
-.finalOutputContainer, .evaluatedOutputContainer {
-    height: 100%;
+.finalOutput, .finalEvaluation {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: auto;
+    animation: pulse 1.5s infinite;
 }
 
+.finalOutput {
+    font-size: clamp(1.2em, 5vw, 3.2em);
+}
 
-.finalOutput, .finalEvaluation {
-    margin: auto;
-    height: 50%;
-    padding: 10px;
-    font-size: clamp(1.1em, 4.5vw, 3em);
-    animation: pulse 1.5s infinite;
+.finalEvaluation {
+    font-size: clamp(1.3em, 5vw, 3.5em);
 }
 
 .controls {
@@ -218,7 +214,6 @@ body::before {
 }
 
 .token {
-
     width: clamp(40px, 8vw, 80px);
     height: auto;
     cursor: move; /* Change cursor to indicate draggable */
@@ -254,11 +249,7 @@ body::before {
 }
 
 .video {
-    flex: 1;
     width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: clamp(4px, 1vw, 8px) solid #EF4E3C;
     border-radius: 0.3em;
     position: relative;
@@ -351,24 +342,3 @@ body::before {
         /* Back to fully visible */
     }
 }
-
-/* For tablets */
-/* @media (max-width: 1024px) {
-    .container {
-        background-color: pink;
-    } 
-} */
-
-/* Smaller tablets */
-/* @media (max-width: 768px) {
-    .container {
-        background-color: blue;
-    }
-} */
-
-/* Mobile devices */
-/* @media (max-width: 480px) {
-    .container {
-        background-color: violet;
-    }
-} */
