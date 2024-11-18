@@ -99,6 +99,7 @@ document.addEventListener('mouseup', () =>
 
 function onStartButtonClick()
 {
+    document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     if (isFirstClick)
     {
         showMainContent(); // Transition to main content
@@ -228,6 +229,7 @@ function precedence(op)
 //stepConversion event listener separately
 function onNextButtonClick()
 {
+    document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     if (!isGameOver) {
         stepConversion();
         ButtonPressEffect(nextButton);
