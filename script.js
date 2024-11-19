@@ -12,6 +12,8 @@ function startInitial()
 
 function nextInitial()
 {
+    document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
+    document.getElementById('gameOver').style.display = 'none';
     ButtonPressEffect(nextButton);
 }
 
@@ -190,8 +192,9 @@ function resetToStart()
     document.getElementById('insertCoin').style.display = 'flex';
 
     // Reset event listeners
-    startButton.removeEventListener('click', onStartPostfix);
+    startButton.removeEventListener('click', startfinalEvaluationButton);
     startButton.addEventListener('click', startInitial);
+
     nextButton.addEventListener('click', nextInitial);
     nextButton.removeEventListener('click', gameoverDisplay);
 }
@@ -202,6 +205,7 @@ function gameoverDisplay()
 {
     // Display the "Game Over" screen
     document.querySelector('.finalOutputContainer').classList.add('hidden');
+    document.querySelector('.postfix-evaluation').style.display = 'none';
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     document.getElementById('gameOver').style.display = 'flex';
     document.getElementById('insertCoin').style.display = 'none';
@@ -573,6 +577,7 @@ function finalOutputButton()
 
     if (result !== 1)
     {
+        console.log(result);
         nextButton.removeEventListener('click', onNextButtonClick);
         nextButton.addEventListener('click', gameoverDisplay);
     }
