@@ -212,7 +212,7 @@ function gameoverDisplay()
     setTimeout(() =>
     {
         resetToStart(); // Reset the game
-    }, 3000);
+    }, 2000);
 }
 
 
@@ -228,6 +228,7 @@ function precedence(op)
 {
     if (op === '+' || op === '-') return 1;
     if (op === '*' || op === '/') return 2;
+    if (op === '^') return 3; 
     return 0;
 }
 
@@ -258,8 +259,9 @@ function checkExpressionType()
     }
 
     // Regular expressions to test the input
-    const numericPattern = /^[\d+\-*/().\s]+$/; // Matches digits and math operators
-    const algebraicPattern = /^[a-zA-Z+\-*/().\s]+$/; // Matches alphabetic characters and math operators
+    const numericPattern = /^[\d+\-*/^().\s]+$/; // Matches digits, operators, and parentheses
+    const algebraicPattern = /^[a-zA-Z+\-*/^().\s]+$/; // Matches letters, operators, and parentheses
+
 
     // Check if the input matches the numeric pattern
     if (numericPattern.test(input))
@@ -305,6 +307,17 @@ function getNextToken(expressionType)
 
             let char1 = expression[index];
             let numberBuffer1 = '';
+
+            // Handle negative numbers
+            if (char1 === '-' && (index === 0 || /[+\-*/(^]/.test(expression[index - 1]))) {
+                numberBuffer1 += '-';
+                index++;
+                while (index < expression.length && !isNaN(expression[index]) && expression[index] !== ' ') {
+                    numberBuffer1 += expression[index];
+                    index++;
+                }
+                return numberBuffer1; // Return the negative number
+            }
 
             // Capture multi-digit numbers
             if (!isNaN(char1) && char1 !== ' ')
@@ -414,10 +427,13 @@ function stepConversion()
                     postfix += stack.pop() + ' ';
                 }
                 stack.pop();
-            } else if (['+', '-', '*', '/'].includes(currentToken))
-            {
-                while (stack.length && precedence(stack[stack.length - 1]) >= precedence(currentToken) && stack[stack.length - 1] !== '(')
-                {
+            } else if (['+', '-', '*', '/', '^'].includes(currentToken)) {
+                while (
+                    stack.length &&
+                    ((currentToken !== '^' && precedence(stack[stack.length - 1]) >= precedence(currentToken)) ||
+                    (currentToken === '^' && precedence(stack[stack.length - 1]) > precedence(currentToken))) &&
+                    stack[stack.length - 1] !== '('
+                ) {
                     postfix += stack.pop() + ' ';
                 }
                 stack.push(currentToken);
@@ -555,16 +571,14 @@ function finalOutputButton()
 
     const result = checkExpressionType();
 
-    if (result === 1)
-    {
-        // Reset event listeners to transition to the next phase on button click
-        nextButton.removeEventListener('click', onNextButtonClick);
-        nextButton.addEventListener('click', transitionToPostfixEvaluation);
-    } else
+    if (result !== 1)
     {
         nextButton.removeEventListener('click', onNextButtonClick);
         nextButton.addEventListener('click', gameoverDisplay);
     }
+     // Reset event listeners to transition to the next phase on button click
+     nextButton.removeEventListener('click', onNextButtonClick);
+     nextButton.addEventListener('click', transitionToPostfixEvaluation);
 
     startButton.removeEventListener('click', onStartButtonClick);
     startButton.addEventListener('click', onStartPostfix);
@@ -585,7 +599,7 @@ function showFinalOutput()
     {
         document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
         document.getElementById('stepButton').disabled = false;
-        document.getElementById('postfixOutput').innerHTML = `FINAL POSTFIX:<br><span style="color: #FFD700">${postfixFinal}</span><br>PRESS NEXT`;
+        document.getElementById('postfixOutput').innerHTML = `Final Postfix:<br>${postfixFinal}`;
     } else
     {
         console.error("Element with id 'finalPostfixExpression' not found in the DOM.");
@@ -608,6 +622,8 @@ function onStepEvaluation()
 
 function transitionToPostfixEvaluation()
 {
+
+    ButtonPressEffect(nextButton);
     // Hide the final output container and show the postfix evaluation container
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.postfix-evaluation').classList.remove('hidden');
@@ -768,7 +784,7 @@ function showEvaluatedOutput()
         if (finalPostfixElement)
         {
             document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-            finalPostfixElement.innerHTML = `FINAL ANSWER:<br><span style="color: #FFD700">${placeholderStack[0]}</span>`;
+            finalPostfixElement.innerHTML = `Final Answer:<br>${placeholderStack[0]}`;
         } else
         {
             console.error("Element with id 'evaluationOutput' not found in the DOM.");
