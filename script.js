@@ -415,6 +415,7 @@ function stepConversion()
                 document.getElementById('stepButton').disabled = true;
                 finalOutputButton();
                 return;
+                
             }
 
             // Process current token
@@ -484,7 +485,7 @@ function stepConversion()
                     postfix += stack.pop() + ' ';
                 }
                 stack.pop(); // Remove the '(' from the stack
-            } else if (['+', '-', '*', '/'].includes(currentToken))
+            } else if (['+', '-', '*', '/', '^'].includes(currentToken))
             {
                 // Process operators
                 while (
@@ -535,7 +536,7 @@ function stepConversion()
                     postfix += stack.pop() + ' ';
                 }
                 stack.pop(); // Remove the '(' from the stack
-            } else if (['+', '-', '*', '/'].includes(currentToken))
+            } else if (['+', '-', '*', '/', '^'].includes(currentToken))
             {
                 // Process operators
                 while (
@@ -674,6 +675,7 @@ function performOperation(op, operand1, operand2)
         case '-': return operand1 - operand2;
         case '*': return operand1 * operand2;
         case '/': return operand1 / operand2;
+        case '^': return Math.pow(operand1, operand2);
         default: return 0;
     }
 }
@@ -713,7 +715,7 @@ function stepEvaluation()
         evaluationStack.push(parseFloat(numberBuffer));
         placeholderStack.push(parseFloat(numberBuffer));
         document.getElementById('currentOutput').textContent = `Current operand: ${numberBuffer}`;
-    } else if (['+', '-', '*', '/'].includes(char))
+    } else if (['+', '-', '*', '/', '^'].includes(char))
     {  // if it's an operator
         if (placeholderStack.length < 2)
         {
@@ -779,8 +781,6 @@ function nextfinalEvaluationButton()
 
 function showEvaluatedOutput()
 {
-    if (!isGameOver)
-    {
         document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
         document.querySelector('.postfix-evaluation').classList.add('hidden');
         document.querySelector('.evaluatedOutputContainer').classList.remove('hidden');
@@ -794,11 +794,7 @@ function showEvaluatedOutput()
         {
             console.error("Element with id 'evaluationOutput' not found in the DOM.");
         }
-    }
-    else
-    {
-        resetToStart();
-    }
+    
 
 }
 
