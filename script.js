@@ -705,17 +705,20 @@ function stepEvaluation()
     let numberBuffer = '';
 
     // Handle multi-digit numbers
-    if (!isNaN(char) && char !== ' ')
-    {
-        while (evaluationIndex < postfixFinal.length && !isNaN(postfixFinal[evaluationIndex]) && postfixFinal[evaluationIndex] !== ' ')
-        {
+    if (!isNaN(char) && char !== ' ' || char === '-' && !isNaN(postfixFinal[evaluationIndex + 1])) {
+        if (char === '-') {
+            numberBuffer += char; // Append the negative sign to the buffer
+            evaluationIndex++;
+        }
+        while (evaluationIndex < postfixFinal.length && !isNaN(postfixFinal[evaluationIndex]) && postfixFinal[evaluationIndex] !== ' ') {
             numberBuffer += postfixFinal[evaluationIndex];
             evaluationIndex++;
         }
         evaluationStack.push(parseFloat(numberBuffer));
         placeholderStack.push(parseFloat(numberBuffer));
         document.getElementById('currentOutput').textContent = `Current operand: ${numberBuffer}`;
-    } else if (['+', '-', '*', '/', '^'].includes(char))
+    }
+    else if (['+', '-', '*', '/', '^'].includes(char))
     {  // if it's an operator
         if (placeholderStack.length < 2)
         {
