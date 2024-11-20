@@ -199,6 +199,7 @@ function resetToStart()
 // Function to trigger reset after GAME OVER
 function gameoverDisplay()
 {
+    ButtonPressEffect(nextButton);
     // Display the "Game Over" screen
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.postfix-evaluation').style.display = 'none';
