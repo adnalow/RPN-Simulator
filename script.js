@@ -199,7 +199,6 @@ function resetToStart()
 // Function to trigger reset after GAME OVER
 function gameoverDisplay()
 {
-    ButtonPressEffect(nextButton);
     // Display the "Game Over" screen
     document.querySelector('.finalOutputContainer').classList.add('hidden');
     document.querySelector('.postfix-evaluation').style.display = 'none';
@@ -385,10 +384,7 @@ function displayNextCharacter()
 {
     const expressionType = checkExpressionType();
     currentToken = getNextToken(expressionType);
-    if (currentToken === null)
-    {
-        document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-    } else
+    if (currentToken !== null)
     {
         document.getElementById('outputDisplay').textContent = `Next Character: ${currentToken}`;
     }
@@ -410,7 +406,7 @@ function stepConversion()
                 }
                 postfixFinal = postfix.trim();
                 document.getElementById('stepButton').disabled = true;
-                finalOutputButton();
+                transitionToPostfixAnswer();
                 return;
             }
 
@@ -460,7 +456,7 @@ function stepConversion()
                 document.getElementById('currentPostfix').textContent = 'Postfix: ' + postfix.trim();
                 document.getElementById('stepButton').disabled = true;
 
-                finalOutputButton();
+                transitionToPostfixAnswer();
                 return;
             }
 
@@ -512,7 +508,7 @@ function stepConversion()
                 document.getElementById('currentPostfix').textContent = 'Postfix: ' + postfix.trim();
                 document.getElementById('stepButton').disabled = true;
 
-                finalOutputButton();
+                transitionToPostfixAnswer();
                 return;
             }
 
@@ -575,16 +571,30 @@ function finalOutputButton()
     if (result !== 1)
     {
         console.log(result);
-        nextButton.removeEventListener('click', onNextButtonClick);
+        nextButton.removeEventListener('click', finalOutputButton);
         nextButton.addEventListener('click', gameoverDisplay);
     }
      // Reset event listeners to transition to the next phase on button click
-     nextButton.removeEventListener('click', onNextButtonClick);
+     nextButton.removeEventListener('click', finalOutputButton);
      nextButton.addEventListener('click', transitionToPostfixEvaluation);
 
     startButton.removeEventListener('click', onStartButtonClick);
     startButton.addEventListener('click', onStartPostfix);
 
+}
+
+function transitionToPostfixAnswer()
+{
+    ButtonPressEffect(nextButton);
+
+    // Update the display for the current step
+    document.getElementById('stackOutput').textContent = `Stack: [${stack.join(', ')}]`;
+    document.getElementById('currentPostfix').textContent = `Postfix: ${postfix.trim()}`;
+    document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
+
+    // Update button event listeners for evaluation phase
+    nextButton.removeEventListener('click', onNextButtonClick);
+    nextButton.addEventListener('click', finalOutputButton);
 }
 
 function showFinalOutput()
@@ -804,49 +814,3 @@ function showEvaluatedOutput()
     }
 
 }
-
-// Video Player
-const videos = [
-    { id: 'QM_RsQ9Yeio?si=hqVmX0iNdmBkbR-Z', title: 'REVERSE POLISH NOTATION' },
-    { id: '1VjJe1PeExQ?si=bOwKg5_prB4j5cyo', title: 'THE SHUNTING YARD ALGORITHM' },
-    { id: 'vXPL6UavUeA?si=XnSRXCkF36Rd9-k1', title: 'INFIX TO POSTFIX CONVERSION' },
-    { id: 'vq-nUF0G4fI?si=9TJ6Dz3FungziQWr', title: 'INFIX TO POSTFIX USING STACK' },
-    { id: '84BsI5VJPq4?si=YNXATQ00WSHc2BPu', title: 'EVALUATION OF POSTFIX EXPRESSION' },
-];
-
-let currentVideoIndex = 0;
-const videoPlayer = document.getElementById('videoPlayer');
-const videoTitle = document.getElementById('videoTitle');
-const prevBtn = document.getElementById('prevButton');
-const nextBtn = document.getElementById('nextButton');
-
-function updateVideo()
-{
-    const video = videos[currentVideoIndex];
-    videoPlayer.src = `https://www.youtube.com/embed/${video.id}`;
-    videoTitle.textContent = video.title;
-
-    prevBtn.disabled = currentVideoIndex === 0;
-    nextBtn.disabled = currentVideoIndex === videos.length - 1;
-}
-
-prevBtn.addEventListener('click', () =>
-{
-    if (currentVideoIndex > 0)
-    {
-        currentVideoIndex--;
-        updateVideo();
-    }
-});
-
-nextBtn.addEventListener('click', () =>
-{
-    if (currentVideoIndex < videos.length - 1)
-    {
-        currentVideoIndex++;
-        updateVideo();
-    }
-});
-
-// Initialize the first video
-updateVideo();
