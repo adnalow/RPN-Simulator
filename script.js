@@ -687,22 +687,17 @@ function performOperation(op, operand1, operand2)
     }
 }
 
-function stepEvaluation()
-{
+function stepEvaluation() {
     document.querySelector('.finalOutputContainer').classList.add('hidden');
 
     // Skip spaces to move directly to the next character or token
-    while (evaluationIndex < postfixFinal.length && postfixFinal[evaluationIndex] === ' ')
-    {
+    while (evaluationIndex < postfixFinal.length && postfixFinal[evaluationIndex] === ' ') {
         evaluationIndex++;
     }
 
     // End evaluation if we've processed all characters
-    if (evaluationIndex >= postfixFinal.length)
-    {
-
+    if (evaluationIndex >= postfixFinal.length) {
         document.getElementById('stepButton').disabled = true;
-
         nextfinalEvaluationButton();
         return;
     }
@@ -712,23 +707,23 @@ function stepEvaluation()
     let numberBuffer = '';
 
     // Handle multi-digit numbers
-    if (!isNaN(char) && char !== ' ' || char === '-' && !isNaN(postfixFinal[evaluationIndex + 1])) {
+    if (!isNaN(char) && char !== ' ' || (char === '-' && evaluationIndex + 1 < postfixFinal.length 
+        && !isNaN(postfixFinal[evaluationIndex + 1]) && postfixFinal[evaluationIndex + 1] !== ' ')) {
+        // Check if '-' is a negative sign for a number
         if (char === '-') {
-            numberBuffer += char; // Append the negative sign to the buffer
+            numberBuffer += char; // Add the negative sign
             evaluationIndex++;
         }
+        // Continue reading digits to form the number
         while (evaluationIndex < postfixFinal.length && !isNaN(postfixFinal[evaluationIndex]) && postfixFinal[evaluationIndex] !== ' ') {
             numberBuffer += postfixFinal[evaluationIndex];
             evaluationIndex++;
         }
-        evaluationStack.push(parseFloat(numberBuffer));
+        evaluationStack.push(parseFloat(numberBuffer)); // Convert and push to stack
         placeholderStack.push(parseFloat(numberBuffer));
         document.getElementById('currentOutput').textContent = `Current operand: ${numberBuffer}`;
-    }
-    else if (['+', '-', '*', '/', '^'].includes(char))
-    {  // if it's an operator
-        if (placeholderStack.length < 2)
-        {
+    } else if (['+', '-', '*', '/', '^'].includes(char)) { // If it's an operator
+        if (placeholderStack.length < 2) {
             document.getElementById('evaluationOutput').textContent = "Error: Invalid Expression";
             document.getElementById('stepButton').disabled = true;
             return;
@@ -749,7 +744,7 @@ function stepEvaluation()
         operations.push(operation);
         document.getElementById('operationsOutput').textContent = `Operations: [${operations.join(', ')}]`;
 
-        evaluationIndex++;  // Increment the index after processing operator
+        evaluationIndex++; // Increment the index after processing operator
     }
 
     // Update display elements
@@ -757,15 +752,14 @@ function stepEvaluation()
     document.getElementById('resultStackOutput').textContent = `Result: [${resultStack.join(', ')}]`;
 
     // Clean up operations and results after display
-    if (operations.length > 0)
-    {
+    if (operations.length > 0) {
         operations.pop();
     }
-    if (resultStack.length > 0)
-    {
+    if (resultStack.length > 0) {
         resultStack.pop();
     }
 }
+
 
 function startfinalEvaluationButton()
 {
