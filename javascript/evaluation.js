@@ -117,6 +117,7 @@ function stepEvaluation() {
         let operand2 = placeholderStack.pop();
         let operand1 = placeholderStack.pop();
         let result = performOperation(char, operand1, operand2);
+        result = Math.round(result * 100) / 100;
 
         evaluationStack.pop();
         evaluationStack.pop();
@@ -181,7 +182,7 @@ function showEvaluatedOutput()
         if (finalPostfixElement)
         {
             document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-            finalPostfixElement.innerHTML = `Final Answer:<br><span style="color: #FFD700">${placeholderStack[0]}</span>`;
+            finalPostfixElement.innerHTML = `Final Answer:<br><span style="color: #FFD700">${placeholderStack[0].toFixed(2)}</span>`;
         } else
         {
             console.error("Element with id 'evaluationOutput' not found in the DOM.");
