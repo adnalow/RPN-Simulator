@@ -153,5 +153,5 @@ function gameoverDisplay()
     setTimeout(() =>
     {
         resetToStart(); // Reset the game
-    }, 2000);
+    }, 4000);
 }
