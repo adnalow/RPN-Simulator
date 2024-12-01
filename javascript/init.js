@@ -1,6 +1,6 @@
 const startButton = document.getElementById('startButton');
 const nextButton = document.getElementById('stepButton');
-const coinSlot = document.getElementById('coin_slot');
+const coinSlot = document.getElementById('coin-slot-container');
 const tokenOut = document.getElementById('token_out');
 const token = document.getElementById('draggable-token');
 
