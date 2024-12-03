@@ -46,6 +46,7 @@ document.addEventListener('mousemove', (event) =>
         )
         {
             insertCoinSound.play();
+            tokenOut.removeEventListener('click', onTokenOutClick);
             // Only execute once when token enters the slot
             insertCoin = true;
             token.classList.add('hidden');

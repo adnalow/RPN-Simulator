@@ -133,6 +133,8 @@ function resetToStart()
 
     nextButton.addEventListener('click', nextInitial);
     nextButton.removeEventListener('click', gameoverDisplay);
+
+    tokenOut.addEventListener('click', onTokenOutClick);
 }
 
 
