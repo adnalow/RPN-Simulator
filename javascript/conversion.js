@@ -32,371 +32,206 @@ function onNextButtonClick()
     }
 }
 
-function checkExpressionType()
-{
+function checkExpressionType() {
     // Get the user input from the input field
     const input = document.getElementById('infixInput').value.trim();
 
     // Check if the input is empty
-    if (input === "")
-    {
+    if (input === "") {
         return "Input is empty. Please enter an expression.";
     }
 
-    // Regular expressions to test the input
+    // Regular expression to validate numeric expressions
     const numericPattern = /^[\d+\-*/^().\s]+$/; // Matches digits, operators, and parentheses
-    const algebraicPattern = /^[a-zA-Z+\-*/^().\s]+$/; // Matches letters, operators, and parentheses
 
     // Check if the input contains invalid characters
-    if (!numericPattern.test(input) && !algebraicPattern.test(input))
-    {
-        return "Input contains invalid characters.";
+    if (!numericPattern.test(input)) {
+        return "Input contains invalid characters. Only numeric expressions are allowed.";
     }
 
     // Check for syntax errors
-    if (!isValidExpression(input))
-    {
-        return 0;
+    if (!isValidExpression(input)) {
+        return 0; // Invalid expression
     }
 
-    // Check if the input matches the numeric pattern
-    if (numericPattern.test(input))
-    {
-        return 1;
-    }
-
-    // Check if the input matches the algebraic pattern
-    if (algebraicPattern.test(input))
-    {
-        return 2;
-    }
-
-    // If the input contains both numbers and letters, it is mixed
-    return 3;
+    return 1; // Valid numeric expression
 }
 
 // Helper function to validate expression syntax
-function isValidExpression(expression)
-{
+function isValidExpression(expression) {
     // Remove spaces for easier processing
     expression = expression.replace(/\s+/g, '');
 
-    // Check for consecutive operators (e.g., `+*`, `/*`)
-    if (/[\+\-\*\/^]{2,}/.test(expression))
-    {
-        return false;
+    // Check for invalid consecutive operators (e.g., `++`, `--`, `+*`, etc.)
+    // Allow cases like `1+-2` where `-` acts as a unary operator
+    if (/([+\-*\/^]{2,})/.test(expression)) {
+        const invalidPattern = /[*/^]{2,}|\*\-|\/\-|\^\-/;
+        if (invalidPattern.test(expression)) {
+            return false; // Disallow invalid consecutive operators
+        }
     }
 
-    // Check if the expression starts or ends with an operator
-    if (/^[\+\*\/^]/.test(expression) || /[\+\-\*\/^]$/.test(expression))
-    {
+    // Check if the expression starts or ends with an invalid operator
+    if (/^[+*\/^]/.test(expression) || /[+\-*\/^]$/.test(expression)) {
         return false;
     }
 
     // Check for balanced parentheses
     let parenthesesCount = 0;
-    for (const char of expression)
-    {
-        if (char === '(')
-        {
+    for (const char of expression) {
+        if (char === '(') {
             parenthesesCount++;
-        }
-        else if (char === ')')
-        {
+        } else if (char === ')') {
             parenthesesCount--;
         }
-        if (parenthesesCount < 0) // More closing parentheses than opening
-        {
-            return false;
+        if (parenthesesCount < 0) {
+            return false; // More closing parentheses than opening
         }
     }
-    if (parenthesesCount !== 0) // Unbalanced parentheses
-    {
-        return false;
+    if (parenthesesCount !== 0) {
+        return false; // Unbalanced parentheses
     }
 
-    return true;
+    return true; // The expression is valid
 }
 
-
-function startConversion()
-{
-    expression = document.getElementById('infixInput').value;
-    postfix = '';
-    stack = [];
-    index = 0;
-    currentToken = '';
-
-    document.getElementById('postfixOutput').textContent = '';
-    document.getElementById('stackOutput').textContent = 'Stack: []';
-    document.getElementById('currentPostfix').textContent = 'Postfix: ';
-    document.getElementById('stepButton').disabled = false;
-
-    nextButton.removeEventListener('click', nextInitial);
-    nextButton.addEventListener('click', onNextButtonClick);
-
-    displayNextCharacter();
-}
-
-function getNextToken(expressionType)
-{
-    switch (expressionType)
-    {
-        case 1:
-            if (index >= expression.length) return null;
-
-            let char1 = expression[index];
-            let numberBuffer1 = '';
-
-            // Handle negative numbers
-            if (char1 === '-' && (index === 0 || /[+\-*/(^]/.test(expression[index - 1]))) {
-                numberBuffer1 += '-';
-                index++;
-                while (index < expression.length && !isNaN(expression[index]) && expression[index] !== ' ') {
-                    numberBuffer1 += expression[index];
-                    index++;
-                }
-                return numberBuffer1; // Return the negative number
-            }
-
-            // Capture multi-digit numbers
-            if (!isNaN(char1) && char1 !== ' ')
-            {
-                while (index < expression.length && !isNaN(expression[index]) && expression[index] !== ' ')
-                {
-                    numberBuffer1 += expression[index];
-                    index++;
-                }
-                return numberBuffer1;
-            } else
-            {
-                index++;  // Move index to next character for operators or parentheses
-                return char1;
-            }
-        case 2:
-            if (index >= expression.length) return null;
-
-            let char2 = expression[index];
-
-            // Capture single alphabetic characters
-            if (/[a-zA-Z]/.test(char2))
-            {
-                index++; // Move to the next character
-                return char2;
-            } else
-            {
-                // Move index to the next character for operators or parentheses
-                index++;
-                return char2;
-            }
-        case 3:
-            if (index >= expression.length) return null;
-
-            let char = expression[index];
-
-            // Capture multi-digit numbers
-            if (!isNaN(char) && char !== ' ')
-            {
-                let numberBuffer = '';
-                while (index < expression.length && !isNaN(expression[index]) && expression[index] !== ' ')
-                {
-                    numberBuffer += expression[index];
-                    index++;
-                }
-                return numberBuffer; // Return the complete number
-            }
-
-            // Capture single alphabetic characters
-            if (/[a-zA-Z]/.test(char))
-            {
-                index++; // Move to the next character
-                return char; // Return the alphabetic character
-            }
-
-            // For operators or parentheses
-            index++;
-            return char; // Return the operator or parenthesis
-
-    }
-}
-
-function displayNextCharacter()
-{
+function startConversion() {
     const expressionType = checkExpressionType();
-    currentToken = getNextToken(expressionType);
-    if (currentToken !== null)
-    {
-        document.getElementById('outputDisplay').textContent = `Next Character: ${currentToken}`;
+
+    if (expressionType === 1) {
+        expression = document.getElementById('infixInput').value;
+        postfix = '';
+        stack = [];
+        index = 0;
+        currentToken = '';
+
+        document.getElementById('postfixOutput').textContent = '';
+        document.getElementById('stackOutput').textContent = 'Stack: []';
+        document.getElementById('currentPostfix').textContent = 'Postfix: ';
+        document.getElementById('stepButton').disabled = false;
+
+        nextButton.removeEventListener('click', nextInitial);
+        nextButton.addEventListener('click', onNextButtonClick);
+
+        displayNextCharacter();
+    } else {
+        // Display error message for invalid input
+        const outputDisplay = document.getElementById('outputDisplay');
+        outputDisplay.textContent = 
+            expressionType === 0 
+                ? "The expression is invalid. Enter a valid numeric expression."
+                : expressionType;
+    }
+}
+
+function getNextToken() {
+
+    if (index >= expression.length) return null;
+
+    let char1 = expression[index];
+    let numberBuffer1 = '';
+
+    // Handle negative numbers
+    if (
+        char1 === '-' &&
+        (index === 0 || /[+\-*/(^]/.test(expression[index - 1]))
+    ) {
+        numberBuffer1 += '-';
+        index++;
+        while (
+            index < expression.length &&
+            !isNaN(expression[index]) &&
+            expression[index] !== ' '
+        ) {
+            numberBuffer1 += expression[index];
+            index++;
+        }
+        return numberBuffer1; // Return the negative number
     }
 
-    if (expressionType == 0){
-        document.getElementById('outputDisplay').textContent = `The expression is invalid. Enter a valid expression`;
+    // Capture multi-digit numbers
+    if (!isNaN(char1) && char1 !== ' ') {
+        while (
+            index < expression.length &&
+            !isNaN(expression[index]) &&
+            expression[index] !== ' '
+        ) {
+            numberBuffer1 += expression[index];
+            index++;
+        }
+        return numberBuffer1;
+    } else {
+        index++; // Move index to next character for operators or parentheses
+        return char1;
     }
+}
 
+function displayNextCharacter() {
+    const expressionType = checkExpressionType();
+
+    if (expressionType === 1) {
+        currentToken = getNextToken();
+        if (currentToken !== null) {
+            document.getElementById('outputDisplay').textContent = `Next Character: ${currentToken}`;
+        }
+    } else {
+        const outputDisplay = document.getElementById('outputDisplay');
+        outputDisplay.textContent = 
+            expressionType === 0 
+                ? "The expression is invalid. Enter a valid numeric expression."
+                : expressionType;
+    }
 }
 
 
 function stepConversion()
 {
-    const result = checkExpressionType();
-    switch (result)
+    if (currentToken === null)
     {
-        // if it is numeric expression
-        case 1:
-            if (currentToken === null)
-            {
-                while (stack.length)
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                postfixFinal = postfix.trim();
-                document.getElementById('stepButton').disabled = true;
-                transitionToPostfixAnswer();
-                return;
-            }
-
-            // Process current token
-            if (!isNaN(currentToken))
-            {
-                postfix += currentToken + ' ';
-            } else if (currentToken === '(')
-            {
-                stack.push(currentToken);
-            } else if (currentToken === ')')
-            {
-                while (stack.length && stack[stack.length - 1] !== '(')
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.pop();
-            } else if (['+', '-', '*', '/', '^'].includes(currentToken)) {
-                while (
-                    stack.length &&
-                    ((currentToken !== '^' && precedence(stack[stack.length - 1]) >= precedence(currentToken)) ||
-                    (currentToken === '^' && precedence(stack[stack.length - 1]) > precedence(currentToken))) &&
-                    stack[stack.length - 1] !== '('
-                ) {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.push(currentToken);
-            }
-
-            // Update stack and postfix display
-            document.getElementById('stackOutput').textContent = `Stack: [${stack.join(', ')}]`;
-            document.getElementById('currentPostfix').textContent = `Postfix: ${postfix.trim()}`;
-
-            // Display the next character
-            displayNextCharacter();
-            break;
-        // if algebraic expression
-        case 2:
-            if (currentToken === null)
-            {
-                while (stack.length)
-                {
-                    postfix += stack.pop() + ' ';
-                }
-
-                document.getElementById('stackOutput').textContent = 'Stack: []';
-                document.getElementById('currentPostfix').textContent = 'Postfix: ' + postfix.trim();
-                document.getElementById('stepButton').disabled = true;
-
-                transitionToPostfixAnswer();
-                return;
-            }
-
-            // Ensure currentToken is read correctly
-            if (/[a-zA-Z]/.test(currentToken))
-            {
-                // Append alphabetic operands directly to the postfix result
-                postfix += currentToken + ' ';
-            } else if (currentToken === '(')
-            {
-                // Push opening parentheses onto the stack
-                stack.push(currentToken);
-            } else if (currentToken === ')')
-            {
-                // Pop from stack until an opening parenthesis is encountered
-                while (stack.length && stack[stack.length - 1] !== '(')
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.pop(); // Remove the '(' from the stack
-            } else if (['+', '-', '*', '/', '^'].includes(currentToken))
-            {
-                // Process operators
-                while (
-                    stack.length &&
-                    precedence(stack[stack.length - 1]) >= precedence(currentToken)
-                )
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.push(currentToken);
-            }
-
-            // Update the display for the current step
-            document.getElementById('stackOutput').textContent = `Stack: [${stack.join(', ')}]`;
-            document.getElementById('currentPostfix').textContent = `Postfix: ${postfix.trim()}`;
-            displayNextCharacter();
-            break;
-        case 3:
-            if (currentToken === null)
-            {
-                // Process remaining stack at the end
-                while (stack.length)
-                {
-                    postfix += stack.pop() + ' ';
-                }
-
-                document.getElementById('stackOutput').textContent = 'Stack: []';
-                document.getElementById('currentPostfix').textContent = 'Postfix: ' + postfix.trim();
-                document.getElementById('stepButton').disabled = true;
-
-                transitionToPostfixAnswer();
-                return;
-            }
-
-            // Handle operands (numbers or alphabetic characters)
-            if (/[a-zA-Z0-9]/.test(currentToken))
-            {
-                postfix += currentToken + ' ';
-            } else if (currentToken === '(')
-            {
-                // Push opening parenthesis onto the stack
-                stack.push(currentToken);
-            } else if (currentToken === ')')
-            {
-                // Pop until an opening parenthesis is encountered
-                while (stack.length && stack[stack.length - 1] !== '(')
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.pop(); // Remove the '(' from the stack
-            } else if (['+', '-', '*', '/', '^'].includes(currentToken))
-            {
-                // Process operators
-                while (
-                    stack.length &&
-                    precedence(stack[stack.length - 1]) >= precedence(currentToken) &&
-                    stack[stack.length - 1] !== '('
-                )
-                {
-                    postfix += stack.pop() + ' ';
-                }
-                stack.push(currentToken); // Push current operator onto the stack
-            }
-
-            // Update UI for each step
-            document.getElementById('stackOutput').textContent = `Stack: [${stack.join(', ')}]`;
-            document.getElementById('currentPostfix').textContent = `Postfix: ${postfix.trim()}`;
-
-            // Get the next token
-            displayNextCharacter();
-            break;
-        default:
-            break;
+        while (stack.length)
+        {
+            postfix += stack.pop() + ' ';
+        }
+        postfixFinal = postfix.trim();
+        document.getElementById('stepButton').disabled = true;
+        transitionToPostfixAnswer();
+        return;
     }
+
+    // Process current token
+    if (!isNaN(currentToken))
+    {
+        postfix += currentToken + ' ';
+    } else if (currentToken === '(')
+    {
+        stack.push(currentToken);
+    } else if (currentToken === ')')
+    {
+        while (stack.length && stack[stack.length - 1] !== '(')
+        {
+            postfix += stack.pop() + ' ';
+        }
+        stack.pop();
+    } else if (['+', '-', '*', '/', '^'].includes(currentToken)) {
+        while (
+            stack.length &&
+            ((currentToken !== '^' && precedence(stack[stack.length - 1]) >= precedence(currentToken)) ||
+            (currentToken === '^' && precedence(stack[stack.length - 1]) > precedence(currentToken))) &&
+            stack[stack.length - 1] !== '('
+        ) {
+            postfix += stack.pop() + ' ';
+        }
+        stack.push(currentToken);
+    }
+
+    // Update stack and postfix display
+    document.getElementById('stackOutput').textContent = `Stack: [${stack.join(', ')}]`;
+    document.getElementById('currentPostfix').textContent = `Postfix: ${postfix.trim()}`;
+
+    // Display the next character
+    displayNextCharacter();
+        
+    
 }
 
 function onStartPostfix()
@@ -419,6 +254,8 @@ function finalOutputButton()
     if (result !== 1)
     {
         console.log(result);
+        document.querySelector('.postfix-evaluation').classList.add('hidden');
+        document.querySelector('.postfix-evaluation').style.display = 'none';
         nextButton.removeEventListener('click', finalOutputButton);
         nextButton.addEventListener('click', gameoverDisplay);
     }
