@@ -47,6 +47,17 @@ function checkExpressionType()
     const numericPattern = /^[\d+\-*/^().\s]+$/; // Matches digits, operators, and parentheses
     const algebraicPattern = /^[a-zA-Z+\-*/^().\s]+$/; // Matches letters, operators, and parentheses
 
+    // Check if the input contains invalid characters
+    if (!numericPattern.test(input) && !algebraicPattern.test(input))
+    {
+        return "Input contains invalid characters.";
+    }
+
+    // Check for syntax errors
+    if (!isValidExpression(input))
+    {
+        return 0;
+    }
 
     // Check if the input matches the numeric pattern
     if (numericPattern.test(input))
@@ -63,6 +74,50 @@ function checkExpressionType()
     // If the input contains both numbers and letters, it is mixed
     return 3;
 }
+
+// Helper function to validate expression syntax
+function isValidExpression(expression)
+{
+    // Remove spaces for easier processing
+    expression = expression.replace(/\s+/g, '');
+
+    // Check for consecutive operators (e.g., `+*`, `/*`)
+    if (/[\+\-\*\/^]{2,}/.test(expression))
+    {
+        return false;
+    }
+
+    // Check if the expression starts or ends with an operator
+    if (/^[\+\*\/^]/.test(expression) || /[\+\-\*\/^]$/.test(expression))
+    {
+        return false;
+    }
+
+    // Check for balanced parentheses
+    let parenthesesCount = 0;
+    for (const char of expression)
+    {
+        if (char === '(')
+        {
+            parenthesesCount++;
+        }
+        else if (char === ')')
+        {
+            parenthesesCount--;
+        }
+        if (parenthesesCount < 0) // More closing parentheses than opening
+        {
+            return false;
+        }
+    }
+    if (parenthesesCount !== 0) // Unbalanced parentheses
+    {
+        return false;
+    }
+
+    return true;
+}
+
 
 function startConversion()
 {
@@ -173,6 +228,11 @@ function displayNextCharacter()
     {
         document.getElementById('outputDisplay').textContent = `Next Character: ${currentToken}`;
     }
+
+    if (expressionType == 0){
+        document.getElementById('outputDisplay').textContent = `The expression is invalid. Enter a valid expression`;
+    }
+
 }
 
 
