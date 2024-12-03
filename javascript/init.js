@@ -144,6 +144,7 @@ function gameoverDisplay()
     gameOverSound.play();
     // Display the "Game Over" screen
     document.querySelector('.finalOutputContainer').classList.add('hidden');
+    document.querySelector('.postfix-evaluation').classList.add('hidden');
     document.querySelector('.postfix-evaluation').style.display = 'none';
     document.querySelector('.evaluatedOutputContainer').classList.add('hidden');
     document.getElementById('gameOver').style.display = 'flex';
