@@ -168,6 +168,12 @@ function nextfinalEvaluationButton()
     startButton.addEventListener('click', startfinalEvaluationButton);
 }
 
+//if the value is an integer there is no decimal
+//if the value is a float/double the decimal is fixed to 2
+function formatFinalAnswer(value) {
+    return value % 1 === 0 ? value : value.toFixed(2);
+  }
+
 function showEvaluatedOutput()
 {
     if (!isGameOver)
@@ -182,7 +188,8 @@ function showEvaluatedOutput()
         if (finalPostfixElement)
         {
             document.getElementById('outputDisplay').textContent = 'Conversion Complete!';
-            finalPostfixElement.innerHTML = `Final Answer:<br><span style="color: #FFD700">${placeholderStack[0].toFixed(2)}</span>`;
+            finalPostfixElement.innerHTML = `Final Answer:<br><span style="color: #FFD700">${formatFinalAnswer(placeholderStack[0])}</span>`;
+
         } else
         {
             console.error("Element with id 'evaluationOutput' not found in the DOM.");
