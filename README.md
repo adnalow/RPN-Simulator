@@ -55,7 +55,7 @@ The evaluation process uses a **stack** for efficient computation, making RPN po
 ---
 
 ## 🔒 **Security Mechanisms**  
-- Since this project doesn’t really involve user-specific data but only user input expression, the team focused primarily on input validation. Ensuring that user inputs are clean to prevent any unexpected behaviors. This includes removing invalid characters and restricting input to only numbers, operators, and parentheses to ensure validity. Proper error handling is also implemented in order to prevent possible crashes that will greatly affect user interactivity.
+- Since this project doesn’t really involve user-specific data but only user input expression, the team focused primarily on input validation. Ensuring that user inputs are clean to prevent any unexpected behaviors. This includes checking for empty input, validating allowed characters, detecting consecutive operators, ensuring the expression does not start or end with an operator, verifying balanced parentheses, capturing multi-digit numbers, and handling negative numbers. Proper error handling is also implemented in order to prevent possible crashes that will greatly affect user interactivity.
 
 ---
 
@@ -105,6 +105,6 @@ In terms of algorithm and code efficiency, the shunting yard algorithm is used f
 ---
 
 ## 🙏 **Acknowledgments**  
-  The team would like to thank God for the strength and knowledge that he gave to them all throughout the development phase of this project. They also want to acknowledge the teachings and guidance given by their instructor. It enabled them to have a clear vision and goal that they wanted to achieve upon the completion of this project.
+  The team would like to express their gratitude to God for providing them with the knowledge and strength they needed during this project's development phase. They also wish to thank their instructor for the lessons and advice they received. It made it possible for them to have a clear idea of what they wanted to accomplish when this project was finished.
 
 ---
